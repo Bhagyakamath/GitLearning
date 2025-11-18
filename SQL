@@ -1,0 +1,130 @@
+create database MphasisLA;
+show databases;
+use MphasisLA;
+create table student(
+sroll int, constraint mk1 primary key(sroll),
+fname varchar(32) not null, 
+lname varchar(32), 
+dob date not null, 
+gender varchar(1) default 'M' check(gender in ('M', 'F'))
+);
+
+alter table student add column contactno int;
+describe student;
+alter table student add constraint mk2 check (contactno between 100 and 200);
+update student set contactno=200 where sroll=1001;
+alter table student drop column contactno;
+delete from student where sroll=1001;
+alter table student modify fname varchar(50);
+alter table student rename column fname to firstname;
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+drop table student;
+set autocommit=0;
+show tables;
+insert into student values(1001, 'Lionel', 'Messi', '2011-06-02', 'M'), 
+(1002, 'Cristiano', 'Ronaldo', '2010-04-11', default),
+(1003, 'Aitana', 'Bonmati', '2012-07-09', 'F'),
+(1004, 'Erling', 'Haaland', '2012-11-03', 'M'),
+(1005, 'Sunil', 'Chettri', '2010-02-12', default),
+(1006, 'Dipa', 'Karmakar', '2011-12-26', 'F'),
+(1007, 'Mahendra Singh', 'Dhoni', '2010-08-30', 'M'),
+(1008, 'Virat', 'Kohli', '2012-07-11', 'M'),
+(1009, 'Killiyan', 'Mbappe', '2012-12-31', 'M'),
+(1010, 'Lamine', 'Yamal', '2013-09-28', default);
+
+select * from student; 
+commit;
+
+create table statetable(
+stateid varchar(10) primary key,
+statename varchar(20) not null);
+
+create table citytable(
+cityid varchar(10) primary key,
+stateid varchar(10), foreign key(stateid) references statetable(stateid),
+cityname varchar(20) not null);
+
+insert into statetable values('S01', 'JK'),
+('S02', 'KA'),
+('S03', 'TN'),
+('S04', 'HR'),
+('S05', 'WB'),
+('S06', 'BR'),
+('S07', 'MH');
+
+insert into citytable values('C01', 'S01', 'Jammu'),
+('C02', 'S01', 'Kashmir'),
+('C03', 'S02', 'Bangalore'),
+('C04', 'S02', 'Ooty'),
+('C05', 'S03', 'Chennai'),
+('C06', 'S03', 'Rameshwaram'),
+('C07', 'S04', 'Gurugram'),
+('C08', 'S04', 'Ayodha');
+
+create table connecttable(
+id int primary key,
+sroll int references student(sroll),
+cityid varchar(10), foreign key(cityid) references citytable(cityid));
+
+insert into connecttable values(1, 1001, 'C02'),
+(2, 1003, 'C01'),
+(3, 1005, 'C06'),
+(4, 1007, 'C05'),
+(5, 1009, 'C02'),
+(6, 1010, 'C01');
+
+create table subjecttable(
+subid varchar(10) primary key,
+subject varchar(25) not null);
+
+insert into subjecttable values('E01', 'English Literature'),
+('E02', 'English Novels'),
+('C01', 'Organic Chemistry'),
+('C02', 'Inorganic Chemistry'),
+('M03', 'Calculus'),
+('P05', 'Hydraulics'),
+('B09', 'Botany'),
+('B10', 'Zoology');
+
+create table markstable(
+id int unique not null,
+sroll int references student(sroll),
+testnum int not null,
+subid varchar(10), foreign key(subid) references subjecttable(subid),
+marks int check(marks between 0 and 100), primary key(sroll, testnum, subid));
+
+drop table markstable;
+
+insert into markstable values(1, 1001, 1, 'E01', 87),
+(2, 1001, 1, 'E02', 79),
+(3, 1001, 1, 'C02', 90),
+(4, 1001, 2, 'E01', 93),
+(5, 1001, 2, 'E02', 65),
+(6, 1002, 1, 'M03', 85),
+(7, 1002, 1, 'P05', 88),
+(8, 1004, 2, 'B09', 94),
+(9, 1004, 2, 'B10', 98),
+(10, 1010, 1, 'P05', 67),
+(11, 1010, 1, 'E01', 89),
+(12, 1010, 1, 'E02', 74);
+
+commit;
+rollback;
+
+create user bhagya identified by 'admin@123';
+
+select sroll, firstname, lname, dob, gender, cityname from student natural join connecttable natural join citytable; 
+select firstname, lname, dob, gender, cityname, statename from student inner join connecttable natural join citytable natural join statetable;
+select a.sroll, a.firstname, a.dob, b.cityname, c.statename from student a, connecttable d, citytable b, statetable c where (a.sroll=d.sroll and d.cityid=b.cityid and b.stateid=c.stateid);
+
+select a.sroll, a.firstname, a.dob, b.cityname, c.statename from student a inner join connecttable d on (a.sroll= d.sroll)
+inner join citytable b on (d.cityid=b.cityid)
+inner join statetable c on b.stateid=c.stateid;
+
+
+
+
+
