@@ -1,6 +1,6 @@
 create database MLA;
 show databases;
-use MphasisLA;
+use MLA;
 create table student(
 sroll int, constraint mk1 primary key(sroll),
 fname varchar(32) not null, 
