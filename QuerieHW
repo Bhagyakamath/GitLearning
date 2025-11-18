@@ -1,0 +1,77 @@
+
+SELECT 
+    c.cityid,
+    c.cityname,
+    COUNT(ct.sroll) AS number_of_students
+FROM 
+    citytable c
+LEFT JOIN 
+    connecttable ct ON c.cityid = ct.cityid
+GROUP BY 
+    c.cityid, c.cityname
+ORDER BY 
+    c.cityid;
+    
+    
+SELECT 
+    c.cityid,
+    c.cityname,
+    CASE 
+        WHEN COUNT(ct.sroll) = 0 THEN 'City Not Allocated'
+        ELSE count(ct.sroll)
+    END AS student_status
+FROM 
+    citytable c
+left JOIN 
+    connecttable ct ON c.cityid = ct.cityid
+GROUP BY 
+    c.cityid, c.cityname
+ORDER BY 
+    c.cityid;
+
+
+SELECT s.sroll, s.fname, s.lname, s.dob, s.gender
+FROM student s
+LEFT JOIN connecttable c ON s.sroll = c.sroll
+WHERE c.cityid IS NULL;
+
+
+SELECT 
+    s.sroll,
+    s.fname,
+    s.lname,
+    sub.subject
+FROM 
+    student s
+INNER JOIN 
+    markstable m ON s.sroll = m.sroll
+INNER JOIN 
+    subjecttable sub ON m.subid = sub.subid
+WHERE 
+    m.testnum = 1
+ORDER BY 
+    s.sroll, sub.subject;
+
+
+
+SELECT s.sroll, s.fname, s.lname
+FROM student s
+LEFT JOIN markstable m 
+    ON s.sroll = m.sroll 
+    AND m.testnum = 1
+WHERE m.sroll IS NULL;
+
+
+SELECT 
+    s.stateid,
+    s.statename,
+    COUNT(c.cityid) AS number_of_cities
+FROM 
+    statetable s
+LEFT JOIN 
+    citytable c ON s.stateid = c.stateid
+GROUP BY 
+    s.stateid, s.statename
+ORDER BY 
+    s.stateid;
+
