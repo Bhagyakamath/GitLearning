@@ -1,4 +1,4 @@
-create database MphasisLA;
+create database MLA;
 show databases;
 use MphasisLA;
 create table student(
