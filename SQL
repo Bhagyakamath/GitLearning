@@ -238,3 +238,56 @@ end as result
  inner join (select sroll, avg(marks) av from markstable where testnum=1 group by sroll) b on a.sroll=b.sroll;
  
  select * from sresult;
+
+-- Index --
+ create index ifname on student(firstname);
+ select * from student where firstname='Lamine';
+ 
+ -- Stored Procedures --
+ -- create a procedure to add two numbers --
+ delimiter //
+ create procedure summer(IN a INT, IN b INT, OUT c INT)
+ begin
+ set c = a + b;
+ end //
+
+ call summer(100, 200, @c);
+ select @c as result;
+
+delimiter //
+ create function result2(a int)
+ returns varchar(30)
+deterministic
+ begin
+ declare output varchar(30);
+ case
+	when a>80 then set output ='distinction';
+	when a>60  then set output ='First Class';
+	when a>50 then set output ='Second Class';
+	when a>30  then set output ='Pass';
+	else set output =  'Fail';
+ end case;
+ return output;
+ end //
+delimiter ;
+
+-- Triggers --
+-- Create a trigger for backup data --
+create table sbackup as select * from student where sroll is null;
+show tables;
+alter table sbackup add column (username varchar(30), dt date);
+ describe sbackup;
+ 
+ delimiter //
+ create trigger yestrigger after delete on student for each row 
+ begin
+ insert into sbackup values(OLD.sroll, OLD.firstname, OLD.lname, OLD.dob, OLD.gender, user(), curdate());
+ end //
+ delimiter ;
+ 
+ drop trigger yestrigger; 
+ delete from student where sroll=1010;
+
+ select * from sbackup;
+ select * from student;
+
