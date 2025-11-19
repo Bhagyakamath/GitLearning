@@ -75,3 +75,59 @@ GROUP BY
 ORDER BY 
     s.stateid;
 
+
+
+-- 19/11/2025 --
+DELIMITER //
+
+CREATE PROCEDURE insert_student(
+    IN p_sroll INT,
+    IN p_fname VARCHAR(32),
+    IN p_lname VARCHAR(32),
+    IN p_dob DATE,
+    IN p_gender VARCHAR(1)
+)
+BEGIN
+    INSERT INTO student(sroll, fname, lname, dob, gender)
+    VALUES (p_sroll, p_fname, p_lname, p_dob, p_gender);
+END //
+
+DELIMITER ;
+
+CALL insert_student(1011, 'Rohit', 'Sharma', '2011-05-10', 'M');
+
+DELIMITER //
+
+CREATE PROCEDURE update_student(
+    IN p_sroll INT,
+    IN p_fname VARCHAR(32),
+    IN p_lname VARCHAR(32),
+    IN p_dob DATE,
+    IN p_gender VARCHAR(1)
+)
+BEGIN
+    UPDATE student
+    SET fname = p_fname,
+        lname = p_lname,
+        dob = p_dob,
+        gender = p_gender
+    WHERE sroll = p_sroll;
+END //
+
+DELIMITER ;
+
+CALL update_student(1011, 'Rohit', 'Sharma', '2011-05-12', 'M');
+
+DELIMITER //
+
+CREATE PROCEDURE delete_student(
+    IN p_sroll INT
+)
+BEGIN
+    DELETE FROM student
+    WHERE sroll = p_sroll;
+END //
+
+DELIMITER ;
+
+CALL delete_student(1011);
