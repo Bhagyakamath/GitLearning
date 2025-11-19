@@ -127,4 +127,114 @@ inner join statetable c on b.stateid=c.stateid;
 
 
 
+-- 19/11/2025 --
+-- Inner Join --
+select a.stateid, a.statename, b.cityid, b.cityname from statetable a inner join citytable b on a.stateid=b.stateid;
 
+-- Left Outer Join --
+select a.stateid, a.statename, b.cityid, b.cityname from statetable a left outer join citytable b on a.stateid=b.stateid;
+
+select a.stateid, a.statename, b.cityid, b.cityname from statetable a left outer join citytable b on a.stateid=b.stateid where b.stateid is null;
+
+-- Equi join --
+select a.stateid, a.statename, b.cityid, b.cityname from statetable a inner join citytable b on a.stateid=b.stateid where a.stateid='S02';
+
+-- Non Equi Join
+select a.stateid, a.statename, b.cityid, b.cityname from statetable a inner join citytable b on a.stateid=b.stateid where a.stateid <> 'S02';
+
+-- Inbuilt Functions --
+select upper(firstname) FirstName from student;
+select round(1234.44, 2);
+select round(1234.44, -2);
+select count(cityid) ncity, stateid from citytable group by stateid;
+select a.stateid, a.statename from statetable a;
+
+-- Number of cities in each state--
+select a.stateid, a.statename, ifnull(b.ncity, 'City Not Allocated') ncities from statetable a left outer join (select count(cityid) ncity, stateid from citytable group by stateid) b on a.stateid=b.stateid;
+
+-- Number of students in each city --
+select a.cityid, a.cityname, ifnull(b.nstudent, 'Student Not Allocated') nstudents from citytable a left outer join (select count(sroll) nstudent, cityid from connecttable group by cityid) b on a.cityid=b.cityid;
+
+-- Student who are not allocated to city --
+select a.sroll, a.firstname, b.cityid from student a left outer join connecttable b on a.sroll=b.sroll where b.cityid is null;
+
+-- Query to find subjects taken by each student --
+select a.sroll, a.firstname, b.subid, c.subject from student a
+inner join markstable b on a.sroll=b.sroll
+inner join subjecttable c on b.subid=c.subid;
+
+-- Self Join --
+create table employee(
+empid int primary key,
+empname varchar(30) not null,
+mid int references employee(empid));
+
+insert into employee values(101, 'Ram', 101),
+(102, 'Subodh', 101),
+(103, 'Shyam', 101),
+(104, 'JK', 102);
+
+-- To retrieve the name of managers of each employee --
+select * from employee;
+select b.empid, b.empname, a.empname manager from employee a
+inner join employee b on a.empid=b.mid;
+
+-- To find the number of employees unnder each manager --
+select mid, count(mid) nemp from employee group by mid;
+select a.empname, b.nemp from employee a 
+inner join (select mid, count(mid) nemp from employee group by mid) b on a.empid=b.mid;
+
+-- Sub Queries --
+ select sroll, firstname, dob from student
+ where sroll in(select sroll from connecttable where cityid in (select cityid from citytable where cityname='Kashmir'));
+
+-- List the students whose test performance is greater than 90 percent in first test --
+select sroll, firstname from student where sroll in (select sroll from markstable where testnum=1 and marks>=90);
+
+-- List students whose average performance should be greater than 60 percent
+select sroll, firstname from student where sroll in 
+(select sroll from markstable group by sroll having avg(marks)> 70 );
+
+-- List sroll, firstname, testnum, avg performance test wise is greater than 70 percent--
+select a.sroll, a.firstname, b.av, b.testnum  from student a 
+inner join (select sroll, avg(marks) av, testnum from markstable group by sroll, testnum having avg(marks)>80) b on a.sroll=b.sroll;
+
+-- List the student details along with the marks of first test with the result fail, 1st class, 2nd class, distinction --
+select a.sroll, a.firstname, b.av,
+case
+when b.av>80 then 'distinction'
+when b.av>60  then 'First Class'
+when b.av>50 then 'Second Class'
+when b.av>30  then 'Pass'
+else 'Fail'
+end as result
+ from student a 
+ inner join (select sroll, avg(marks) av from markstable where testnum=1 group by sroll) b on a.sroll=b.sroll;
+
+-- Display all the students whose birtday is in December --
+select sroll, firstname, dob from student where sroll in (select sroll from student where extract(month from dob)=12);
+
+select *, timestampdiff(year, dob, curdate()) age from student;
+select *, timestampdiff(year, dob, curdate()) age from student where month(dob)=12;
+
+-- View --
+create view stable as select * from student;
+select * from stable;
+insert into stable values(1011, 'John', 'Doe', '2011-05-24', 'M');
+ 
+ create view manager1 as select sroll, firstname from student where sroll between 1001 and 1005 with check option;
+ select * from manager1;
+ drop view manager1;
+
+ create view sresult as select a.sroll, a.firstname, b.av,
+case
+when b.av>80 then 'distinction'
+when b.av>60  then 'First Class'
+when b.av>50 then 'Second Class'
+when b.av>30  then 'Pass'
+else 'Fail'
+end as result
+ from student a 
+ inner join (select sroll, avg(marks) av from markstable where testnum=1 group by sroll) b on a.sroll=b.sroll;
+ 
+ select * from sresult;
