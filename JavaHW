@@ -27,3 +27,99 @@ public class Main {
         System.out.println("Result = " + result[choice]);
     }
 }
+
+
+
+
+
+
+
+20/11/2025
+package com.test;
+import java.util.*;
+
+public class NumberToWords {
+	static String[] ones = {
+	        "", "one", "two", "three", "four", "five", "six",
+	        "seven", "eight", "nine", "ten", "eleven", "twelve",
+	        "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+	        "eighteen", "nineteen"
+	    };
+
+	    static String[] tens = {
+	        "", "", "twenty", "thirty", "forty", "fifty",
+	        "sixty", "seventy", "eighty", "ninety"
+	    };
+
+	    public static String convert2Digits(int n) {
+	        if (n < 20) return ones[n];
+	        return tens[n / 10] + (n % 10 != 0 ? " " + ones[n % 10] : "");
+	    }
+
+	    public static void main(String[] args) {
+
+	        Scanner sc = new Scanner(System.in);
+	        System.out.print("Enter number: ");
+	        long n = sc.nextLong();
+
+	        if (n == 0) {
+	            System.out.println("zero");
+	            return;
+	        }
+
+	        String words = "";
+
+	        long crore = n / 10000000;
+	        n %= 10000000;
+
+	        long lakh = n / 100000;
+	        n %= 100000;
+
+	        long thousand = n / 1000;
+	        n %= 1000;
+
+	        long hundred = n / 100;
+	        n %= 100;
+
+	        if (crore > 0) words += convert2Digits((int)crore) + " crore ";
+	        if (lakh > 0) words += convert2Digits((int)lakh) + " lakh ";
+	        if (thousand > 0) words += convert2Digits((int)thousand) + " thousand ";
+	        if (hundred > 0) words += ones[(int)hundred] + " hundred ";
+	        if (n > 0) words += convert2Digits((int)n);
+
+	        System.out.println(words.trim());
+	    }
+}
+
+
+
+
+
+package com.test;
+
+import java.util.Scanner;
+
+public class DaysOfWeek {
+	 public static void main(String[] args) {
+
+	        String[] days = {
+	            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+	        };
+
+	        String[] owners = {
+	            "Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"
+	        };
+
+	        String[] colors = {
+	            "Orange", "White", "Red", "Green", "Yellow", "White", "Black"
+	        };
+
+	        Scanner sc = new Scanner(System.in);
+	        System.out.print("Enter day number (1-7): ");
+
+	        int n = sc.nextInt();
+
+	        System.out.println(days[n-1] + " - " + owners[n-1] + " - " + colors[n-1]);
+	    }
+}
+
