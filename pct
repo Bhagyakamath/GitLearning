@@ -1,0 +1,67 @@
+create database pct;
+use pct;
+create table customer(
+customerid int primary key,
+name varchar(50) not null,
+address varchar(200) not null,
+phonenumber varchar(10) not null,
+email varchar(30) unique);
+
+desc customer;
+
+insert into customer values(1, "Ram", "Bangalore", "6758438759", "ram@gmail.com"),
+(2, "Rahul", "Bangalore", "9856401247", "rahul@gmail.com");
+select * from customer;
+
+create table meter(
+meterid int primary key,
+customerid int references customer(customerid) on delete cascade,
+installationdate date not null,
+lastreadingdate date not null);
+desc meter;
+
+insert into meter values(101, 1, '2011-02-02', '2025-11-04'),
+(102, 2, '2011-06-22', '2025-10-02');
+select * from meter;
+
+create table electricityusage(
+usageid int primary key,
+meterid int references meter(meterid) on delete cascade,
+readingdate date not null,
+usageunits numeric(10,2) check (usageunits>=0));
+drop table electricityusage;
+desc electricityusage;
+
+insert into electricityusage values(501, 101, '2025-09-23', 100),
+(502, 101, '2025-08-23', 120),
+(503, 102, '2025-09-23', 150);
+select * from electricityusage;
+
+create table bill(
+billid int primary key,
+meterid int references meter(meterid) on delete cascade,
+billdate date not null,
+amountdue numeric(10, 2) check (amountdue>=0),
+duedate date not null,
+paid tinyint not null default 0);
+desc bill;
+
+insert into bill values(1001, 101, '2025-09-23', 0, '2025-10-23', 1),
+(1002, 101, '2025-08-23', 0, '2025-09-23', 1),
+(1003, 102, '2025-09-23', 30, '2025-10-23', 1);
+select * from bill;
+
+create table payment(
+paymentid int primary key,
+billid int references bill(billid) on delete cascade,
+paymentdate date not null,
+amountpaid numeric(10,2) check (amountpaid>=0));
+desc payment;
+
+insert into payment values(401, 1001, '2025-09-29', 300),
+(402, 1001, '2025-09-05', 400),
+(403, 1002, '2025-10-12', 600);
+select * from payment;
+
+
+
