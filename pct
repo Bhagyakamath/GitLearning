@@ -22,6 +22,11 @@ desc meter;
 
 insert into meter values(101, 1, '2011-02-02', '2025-11-04'),
 (102, 2, '2011-06-22', '2025-10-02');
+
+insert into meter values(103, 1, '2011-05-02', '2025-11-04');
+insert into meter values(104, 1, '2025-05-02', '2025-11-04');
+insert into meter values(105, 1, '2024-06-14', '2025-11-04');
+insert into meter values(106, 2, '2025-07-12', '2025-11-04');
 select * from meter;
 
 create table electricityusage(
@@ -35,6 +40,10 @@ desc electricityusage;
 insert into electricityusage values(501, 101, '2025-09-23', 100),
 (502, 101, '2025-08-23', 120),
 (503, 102, '2025-09-23', 150);
+
+insert into electricityusage values(504, 103, '2025-09-23', 90);
+insert into electricityusage values(505, 103, '2025-08-23', 250);
+
 select * from electricityusage;
 
 create table bill(
@@ -49,6 +58,8 @@ desc bill;
 insert into bill values(1001, 101, '2025-09-23', 0, '2025-10-23', 1),
 (1002, 101, '2025-08-23', 0, '2025-09-23', 1),
 (1003, 102, '2025-09-23', 30, '2025-10-23', 1);
+insert into bill values(1004, 102, '2025-08-23', 500, '2025-09-23', 0);
+insert into bill values(1005, 104, '2025-08-23', 200, '2025-09-23', 0);
 select * from bill;
 
 create table payment(
@@ -61,7 +72,38 @@ desc payment;
 insert into payment values(401, 1001, '2025-09-29', 300),
 (402, 1001, '2025-09-05', 400),
 (403, 1002, '2025-10-12', 600);
+insert into payment values(404, 1003, '2025-09-29', 300);
 select * from payment;
+
+select meterid, sum(usageunits) as electricity_usage_per_meter from electricityusage group by meterid having sum(usageunits)>200;
+
+select c.customerid, c.name, sum(b.amountdue) as unpaid_bill_amount from customer c
+join meter m on c.customerid=m.customerid
+join bill b on m.meterid=b.meterid
+where paid=0
+group by c.customerid, c.name, b.amountdue
+order by b.amountdue desc;
+
+select b.billid, b.billdate, b.paid as payment_status, p.paymentdate, p.amountpaid from bill b
+left join payment p on b.billid=p.billid
+order by b.billdate asc;
+
+select c.customerid, c.name, m.meterid, m.installationdate from customer c
+join meter m on c.customerid=m.customerid
+where m.installationdate>'2023-12-31';
+
+select m.meterid, m.lastreadingdate, sum(b.usageunits) total_usage from meter m
+join electricityusage b on m.meterid=b.meterid
+group by m.meterid, m.lastreadingdate
+order by total_usage desc;
+
+
+
+
+
+
+
+
 
 
 
