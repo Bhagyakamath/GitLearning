@@ -1,0 +1,74 @@
+Tax Calculation Application
+1.	Objective
+The primary objective the project is to build a functioning tax calculator that can store and manage user-entered information for properties and vehicles. It must calculate tax amounts, allow users to view the summary of all stored data, and navigate through the application easily using a text-based interface.
+
+2.	Application Flow
+When the application starts, it displays a welcome screen that introduces the application name and developer details. It also gives brief instructions on how to navigate the menu. The user is then presented with the main menu, which consists of four choices:
+1.	Property tax
+2.	Vehicle tax
+3.	Total tax
+4.	Exit the application
+
+Case 1:
+If the user selects the property tax, then it shows below options:
+1.	Add property details
+2.	Calculate property tax
+3.	Display all properties
+4.	Back to main menu
+If the user selects Add property details, the application asks for various property-related inputs such as built-up area, age of the land, base value, and whether the property is located in the main city. 
+If the user selects 2, then application asks for property id and calculates tax using below formulas:
+a)	If the property is in the main city:
+•	Property tax = (built-up area × age factor × base value) + (½ × built-up area)
+b)	If the property is not located in the city:
+• Property tax = built-up area × age factor × base value
+If the user selects 3, then application displays all the property details and if user selects 4, application returns to main menu.
+Case 2:
+If the user selects vehicle tax, then application shows below options:
+1.	Add vehicle details
+2.	Calculate vehicle tax
+3.	Display all vehicles
+4.	Back to main menu
+If the user selects 1, the user is prompted to enter vehicle-related details such as registration number, brand, cost, capacity, maximum velocity, and fuel type.
+If the user selects 2, then application asks for vehicle registration number and calculates tax using below formulas:
+a)	Petrol-driven vehicles:
+• Vehicle tax = velocity + capacity + 10% of the purchase cost
+b)	Diesel-driven vehicles:
+• Vehicle tax = velocity + capacity + 11% of the purchase cost 
+c)	CNG/LPG-driven vehicles:
+• Vehicle tax = velocity + capacity + 12% of the purchase cost
+If the user selects 3, then application displays all the vehicle details and if user selects 4, application returns to main menu.
+Case 3:
+If the user selects total tax, the application displays a formatted report of all stored properties and vehicles.
+Case 4:
+If the user chose to exit the application, the application will end by displaying thank you message.
+3.	Capabilities
+1.	Add property details
+•	User enters base value of land.
+•	User enters built-up area of land.
+•	User enters age of the land in years.
+•	User enters if the land is located in city or not.
+•	These details are then stored temporarily.
+2.	Add vehicle details
+•	User enters vehicle registration number.
+•	User enters brand of the vehicle.
+•	User enters the capacity of the vehicle as number of seats.
+•	User enters the type of vehicle- whether petrol driven, diesel driven or CNG/LPG driven.
+•	These details are then stored temporarily.
+3.	Property tax calculation
+•	User enters property id for calculation of tax.
+•	Tax is calculated based on the formula.
+4.	Vehicle tax calculation
+•	User enters vehicle registration number for calculation of tax.
+•	Tax is calculated based on the formula.
+5.	Total tax calculation
+•	Total tax is calculated by combining the tax of properties and vehicles.
+
+
+
+
+
+
+
+
+
+
