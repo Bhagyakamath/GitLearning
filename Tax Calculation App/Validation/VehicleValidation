@@ -1,0 +1,70 @@
+package com.test.validation;
+
+import com.test.exception.InvalidVehicleException;
+import com.test.model.Vehicle;
+import com.test.model.VehicleType;
+
+public class VehicleValidation {
+	public static void validate(Vehicle vehicle) {
+
+        validateRegistrationNumber(vehicle.getRegistrationnumber());
+        validateBrand(vehicle.getBrand());
+        validatePurchaseCost(vehicle.getPurchasecost());
+        validateVelocity(vehicle.getMaxvelocity());
+        validateCapacity(vehicle.getCapacity());
+        validateVehicleType(vehicle.getVehicletype());
+    }
+
+    public static void validateRegistrationNumber(int regNo) {
+        String reg = String.format("%04d", regNo);
+
+        if (reg.equals("0000")) {
+            throw new InvalidVehicleException("Registration number cannot be 0000");
+        }
+
+        if (reg.length() != 4) {
+            throw new InvalidVehicleException("Registration number must be exactly 4 digits");
+        }
+
+        
+        if (regNo < 0) {
+            throw new InvalidVehicleException("Registration number must be a positive number");
+        }
+    }
+
+    public static void validateBrand(String brand) {
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new InvalidVehicleException("Brand cannot be empty");
+        }
+        if (!brand.matches("[a-zA-Z ]+")) {
+            throw new InvalidVehicleException("Brand must contain only letters");
+        }
+    }
+
+    public static void validatePurchaseCost(double cost) {
+        if (cost <= 0) {
+            throw new InvalidVehicleException("Purchase cost must be greater than zero");
+        }
+        if (cost < 50000 || cost > 1000000) {
+            throw new InvalidVehicleException("Purchase cost must be between 50,000 and 10,00,000");
+        }
+    }
+
+    public static void validateVelocity(int velocity) {
+        if (velocity < 120 || velocity > 300) {
+            throw new InvalidVehicleException("Maximum velocity must be between 120 and 300 kmph");
+        }
+    }
+
+    public static void validateCapacity(int capacity) {
+        if (capacity < 2 || capacity > 50) {
+            throw new InvalidVehicleException("Capacity must be between 2 and 50 seats");
+        }
+    }
+
+    public static void validateVehicleType(VehicleType type) {
+        if (type == null) {
+            throw new InvalidVehicleException("Vehicle type must be selected (1-3)");
+        }
+    }
+}
