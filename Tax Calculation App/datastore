@@ -1,0 +1,12 @@
+package TaxCalculationApp.com.test.datastore;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.model.Vehicle;
+
+public class DataStore {
+	public static List<Property> properties=new ArrayList();
+	public static List<Vehicle> vehicles=new ArrayList();
+}
