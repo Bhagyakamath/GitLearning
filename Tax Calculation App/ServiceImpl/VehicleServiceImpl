@@ -13,6 +13,7 @@ public class VehicleServiceImpl implements VehicleService{
 
 	@Override
 	public void addVehicle(Vehicle v) {
+		VehicleValidation.validate(vehicle);
 		DataStore.vehicles.add(v);
 		
 	}
@@ -39,9 +40,11 @@ public class VehicleServiceImpl implements VehicleService{
 	}
 
 	@Override
-	public List<Vehicle> getAllVehicles() {
-		DataStore.vehicles.sort(Comparator.comparingInt(Vehicle :: getRegistrationno));
-		return DataStore.vehicles;
+	public void getAllVehicles() {
+		DataStore.vehicles.sort(Comparator.comparingInt(Vehicle::getRegistrationnumber));
+	        VehicleTemplate.printHeader();
+	        VehicleTemplate.printData(DataStore.vehicles);
+	        VehicleTemplate.printFooter();
 	}
 
 	@Override
