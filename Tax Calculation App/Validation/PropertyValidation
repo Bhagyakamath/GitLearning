@@ -1,0 +1,45 @@
+package com.test.validation;
+
+import com.test.exception.InvalidPropertyException;
+import com.test.model.Property;
+
+public class PropertyValidation {
+	public static void validate(Property p) {
+
+        validateBaseValue(p.getBasevalue());
+        validateBuiltUpArea(p.getBuiltuparea());
+        validateAge(p.getAge());
+        validatePropertyTax(p.getPropertytax());
+        
+    }
+
+    public static void validateBaseValue(double baseValue) {
+        if (baseValue <= 0) {
+            throw new InvalidPropertyException("Base value must be a non-zero positive number.");
+        }
+    }
+
+    public static void validateBuiltUpArea(double builtArea) {
+        if (builtArea <= 0) {
+            throw new InvalidPropertyException("Built-up area must be a non-zero positive number.");
+        }
+    }
+
+    public static void validateAge(int age) {
+        if (age <= 0) {
+            throw new InvalidPropertyException("Age of construction must be a non-zero positive number.");
+        }
+    }
+
+   
+    public static void validatePropertyTax(double tax) {
+        if (tax < 0) {
+            throw new InvalidPropertyException("Property tax cannot be negative.");
+        }
+    }
+
+   
+    public static boolean validateCityInput(char c) {
+        return c == 'Y' || c == 'y' || c == 'N' || c == 'n';
+    }
+}
