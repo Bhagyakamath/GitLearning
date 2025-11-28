@@ -8,6 +8,6 @@ import TaxCalculationApp.com.test.model.Vehicle;
 public interface VehicleService {
 	public void addVehicle(Vehicle v);
 	public double calculateVehicleTax(int regno);
-	List<Vehicle> getAllVehicles();
+	void getAllVehicles();
 	public Vehicle getVehicleByRegno(int regno);
 }
