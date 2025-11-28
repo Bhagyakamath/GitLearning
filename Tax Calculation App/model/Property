@@ -1,0 +1,79 @@
+package TaxCalculationApp.com.test.model;
+
+public class Property {
+	private int id;
+	private double basevalue;
+	private double builtuparea;
+	private int ageofland;
+	private boolean isinmaincity;
+	private double propertytax;
+	public Property() {
+		
+	}
+	
+	public Property(int id, double basevalue, double builtuparea, int ageofland, boolean isinmaincity,
+			double propertytax) {
+		super();
+		this.id = id;
+		this.basevalue = basevalue;
+		this.builtuparea = builtuparea;
+		this.ageofland = ageofland;
+		this.isinmaincity = isinmaincity;
+		this.propertytax = propertytax;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getBasevalue() {
+		return basevalue;
+	}
+
+	public void setBasevalue(double basevalue) {
+		this.basevalue = basevalue;
+	}
+
+	public double getBuiltuparea() {
+		return builtuparea;
+	}
+
+	public void setBuiltuparea(double builtuparea) {
+		this.builtuparea = builtuparea;
+	}
+
+	public int getAgeofland() {
+		return ageofland;
+	}
+
+	public void setAgeofland(int ageofland) {
+		this.ageofland = ageofland;
+	}
+
+	public boolean isIsinmaincity() {
+		return isinmaincity;
+	}
+
+	public void setIsinmaincity(boolean isinmaincity) {
+		this.isinmaincity = isinmaincity;
+	}
+
+	public double getPropertytax() {
+		return propertytax;
+	}
+
+	public void setPropertytax(double propertytax) {
+		this.propertytax = propertytax;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%4d, %10.2f, %10.2f, %4d, %4s, %12.2f", id, basevalue, builtuparea, ageofland, isinmaincity, propertytax );
+	}
+	
+	
+}
