@@ -12,6 +12,7 @@ public class PropertyServiceImpl implements PropertyService{
 
 	@Override
 	public void addProperty(Property p) {
+		PropertyValidation.validate(property);
 		p.setId(id++);
 		DataStore.properties.add(p);
 		
@@ -36,9 +37,11 @@ public class PropertyServiceImpl implements PropertyService{
 	}
 
 	@Override
-	public List<Property> getAllProperties() {
-		DataStore.properties.sort(Comparator.comparingInt(Property :: getId));
-		return DataStore.properties;
+	public void getAllProperties() {
+		PropertyTemplate.printHeader();
+    	 DataStore.properties.sort(Comparator.comparingInt(Property::getPropertyid));
+    	 PropertyTemplate.printData(DataStore.properties);
+    	 PropertyTemplate.printFooter();
 	}
 
 	@Override
