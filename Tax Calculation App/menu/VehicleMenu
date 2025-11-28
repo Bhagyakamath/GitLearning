@@ -1,0 +1,73 @@
+package TaxCalculationApp.com.test.menu;
+
+import java.util.List;
+import java.util.Scanner;
+
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.model.Vehicle;
+import TaxCalculationApp.com.test.model.VehicleType;
+import TaxCalculationApp.com.test.serviceimpl.VehicleServiceImpl;
+
+public class VehicleMenu {
+	public static void main(String[] args) {
+		final VehicleServiceImpl vs=new VehicleServiceImpl();
+		int ch=0;
+		Scanner sc=new Scanner(System.in);
+		do{
+			System.out.println("Enter 1 to add, 2 to cal, 3 to display and 4 to exit");
+			ch=sc.nextInt();
+			switch(ch) {
+			case 1:
+				Vehicle v=new Vehicle();
+				System.out.println("Enter registation number: ");
+				v.setRegistrationno(sc.nextInt());
+				System.out.println("Enter brand of vehicle: ");
+				v.setBrand(sc.next());
+				System.out.println("Enter max velocity of vehicle: ");
+				v.setMaxvelocity(sc.nextInt());
+				System.out.println("Enter capacity of vehicle");
+				v.setCapacity(sc.nextInt());
+				System.out.println("Enter type of vehicle 1. petrol, 2. diesel, 3.lpg/cng");
+				int typec=sc.nextInt();
+				VehicleType type=VehicleType.petrol;
+				switch(typec) {
+				case 1: 
+					type=VehicleType.petrol;
+					break;
+				case 2:
+					type=VehicleType.diesel;
+					break;
+				case 3:
+					type=VehicleType.cng_lpg;
+					break;
+				default: 
+					System.out.println("Enter correct choice.");
+					break;
+				
+				}
+				v.setVehicletype(type);
+				System.out.println("Enter purchase cost: ");
+				v.setPurchasecost(sc.nextDouble());
+				vs.addVehicle(v);
+				break;
+			case 2: 
+				System.out.println("Enter registration number to calculate tax: ");
+				int regno=sc.nextInt();
+				System.out.println(vs.calculateVehicleTax(regno));
+				break;
+				
+			case 3:
+				List<Vehicle> p1=vs.getAllVehicles();
+				p1.stream().forEach(System.out :: println);
+				break;
+				
+			case 4: 
+				System.exit(0);
+				break;
+			default: System.out.println("Enter correct choice");
+			
+			}
+			
+		}while(ch!=0);
+	}
+}
