@@ -1,0 +1,57 @@
+package TaxCalculationApp.com.test.serviceimpl;
+
+import java.util.Comparator;
+import java.util.List;
+
+import TaxCalculationApp.com.test.datastore.DataStore;
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.model.Vehicle;
+import TaxCalculationApp.com.test.model.VehicleType;
+import TaxCalculationApp.com.test.service.VehicleService;
+
+public class VehicleServiceImpl implements VehicleService{
+
+	@Override
+	public void addVehicle(Vehicle v) {
+		DataStore.vehicles.add(v);
+		
+	}
+
+	@Override
+	public double calculateVehicleTax(int regno) {
+		Vehicle v=getVehicleByRegno(regno);
+		if(v==null) {
+			System.out.println("Vehicle not found with registration number: "+ regno);
+			return -1;
+		}
+		double tax=0;
+		if(v.getVehicletype()==VehicleType.petrol) {
+			tax=v.getMaxvelocity()+v.getCapacity()+(0.1* v.getPurchasecost());
+		}
+		else if(v.getVehicletype()==VehicleType.diesel) {
+			tax=v.getMaxvelocity()+v.getCapacity()+(0.11* v.getPurchasecost());
+		}
+		else {
+			tax=v.getMaxvelocity()+v.getCapacity()+(0.12* v.getPurchasecost());
+		}
+		v.setVehicletax(tax);
+		return tax;
+	}
+
+	@Override
+	public List<Vehicle> getAllVehicles() {
+		DataStore.vehicles.sort(Comparator.comparingInt(Vehicle :: getRegistrationno));
+		return DataStore.vehicles;
+	}
+
+	@Override
+	public Vehicle getVehicleByRegno(int regno) {
+		for(Vehicle v : DataStore.vehicles) {
+			if(v.getRegistrationno()==regno) {
+				return v;
+			}
+		}
+		return null;
+	}
+
+}
