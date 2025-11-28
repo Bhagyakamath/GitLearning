@@ -1,0 +1,50 @@
+package TaxCalculationApp.com.test.menu;
+
+import java.util.List;
+import java.util.Scanner;
+
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.serviceimpl.PropertyServiceImpl;
+
+public class PropertyMenu {
+	public static void main(String[] args) {
+		final PropertyServiceImpl ps = new PropertyServiceImpl();
+		int ch=0;
+		Scanner sc=new Scanner(System.in);
+		
+		do {
+			System.out.println("Enter 1 to add, 2 to cal, 3 to display and 4 to exit");
+			ch=sc.nextInt();
+			switch(ch) {
+			case 1:
+				Property p=new Property();
+				System.out.println("Enter base value of land: ");
+				p.setBasevalue(sc.nextDouble());
+				System.out.println("Enter built up area of land: ");
+				p.setBuiltuparea(sc.nextDouble());
+				System.out.println("Enter age of land: ");
+				p.setAgeofland(sc.nextInt());
+				System.out.println("Is land in main city: ");
+				p.setIsinmaincity(sc.nextBoolean());
+				ps.addProperty(p);
+				break;
+			case 2: 
+				System.out.println("Enter property id: ");
+				int id=sc.nextInt();
+				System.out.println(ps.calculatePropertyTax(id));
+				break;
+				
+			case 3:
+				List<Property> p1=ps.getAllProperties();
+				p1.stream().forEach(System.out :: println);
+				break;
+				
+			case 4: 
+				System.exit(0);
+				break;
+			default: System.out.println("Enter correct choice");
+			
+			}
+		}while(ch!=0);
+	}
+}
