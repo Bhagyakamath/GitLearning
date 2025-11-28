@@ -7,6 +7,6 @@ import TaxCalculationApp.com.test.model.Property;
 public interface PropertyService {
 	public void addProperty(Property p);
 	public double calculatePropertyTax(int propertyid);
-	List<Property> getAllProperties();
+	void getAllProperties();
 	public Property getPropertyById(int id);
 }
