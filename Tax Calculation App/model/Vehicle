@@ -1,0 +1,73 @@
+package TaxCalculationApp.com.test.model;
+
+public class Vehicle {
+	private int registrationno;
+	private String brand;
+	private int maxvelocity;
+	private int capacity;
+	private double purchasecost;
+	private VehicleType vehicletype;
+	private double vehicletax;
+	public Vehicle() {
+		
+	}
+	public Vehicle(int registrationno, String brand, int maxvelocity, int capacity, VehicleType vehicletype,
+			double vehicletax) {
+		super();
+		this.registrationno = registrationno;
+		this.brand = brand;
+		this.maxvelocity = maxvelocity;
+		this.capacity = capacity;
+		this.vehicletype = vehicletype;
+		this.vehicletax = vehicletax;
+	}
+	public int getRegistrationno() {
+		return registrationno;
+	}
+	public void setRegistrationno(int registrationno) {
+		this.registrationno = registrationno;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public int getMaxvelocity() {
+		return maxvelocity;
+	}
+	public void setMaxvelocity(int maxvelocity) {
+		this.maxvelocity = maxvelocity;
+	}
+	public int getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+	public VehicleType getVehicletype() {
+		return vehicletype;
+	}
+	public void setVehicletype(VehicleType vehicletype) {
+		this.vehicletype = vehicletype;
+	}
+	public double getVehicletax() {
+		return vehicletax;
+	}
+	public void setVehicletax(double vehicletax) {
+		this.vehicletax = vehicletax;
+	}
+	public double getPurchasecost() {
+		return purchasecost;
+	}
+	public void setPurchasecost(double purchasecost) {
+		this.purchasecost = purchasecost;
+	}
+	@Override
+	public String toString() {
+		return String.format("%4d, %10s, %5d, %5d, %15.2f, %8s, %10.2f", registrationno, brand, maxvelocity, capacity, purchasecost, vehicletype.toString(), purchasecost);
+	}
+	
+	
+	
+}
