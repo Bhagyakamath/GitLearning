@@ -1,0 +1,54 @@
+package TaxCalculationApp.com.test.serviceimpl;
+
+import java.util.Comparator;
+import java.util.List;
+
+import TaxCalculationApp.com.test.datastore.DataStore;
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.service.PropertyService;
+
+public class PropertyServiceImpl implements PropertyService{
+	int id=1;
+
+	@Override
+	public void addProperty(Property p) {
+		p.setId(id++);
+		DataStore.properties.add(p);
+		
+	}
+
+	@Override
+	public double calculatePropertyTax(int propertyid) {
+		Property p=getPropertyById(propertyid);
+		if(p==null) {
+			System.out.println("Property not found with id: "+propertyid);
+			return -1;
+		}
+		double tax=0;
+		if(p.isIsinmaincity()) {
+			tax=(p.getBuiltuparea()*p.getAgeofland()*0.2*p.getBasevalue())+(0.5*p.getBuiltuparea());
+		}
+		else {
+			tax=(p.getBuiltuparea()*p.getAgeofland()*0.2*p.getBasevalue());
+		}
+		p.setPropertytax(tax);
+		return tax;
+	}
+
+	@Override
+	public List<Property> getAllProperties() {
+		DataStore.properties.sort(Comparator.comparingInt(Property :: getId));
+		return DataStore.properties;
+	}
+
+	@Override
+	public Property getPropertyById(int id) {
+		for(Property p : DataStore.properties) {
+			if(p.getId()==id) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+}
