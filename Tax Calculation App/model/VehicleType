@@ -1,0 +1,5 @@
+package TaxCalculationApp.com.test.model;
+
+public enum VehicleType {
+	petrol, diesel, cng_lpg;
+}
