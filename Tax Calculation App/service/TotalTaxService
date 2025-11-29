@@ -1,0 +1,5 @@
+package TaxCalculationApp.com.test.service;
+
+public interface TotalTaxService {
+	public void displayTotalTax();
+}
