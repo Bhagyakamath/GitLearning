@@ -1,0 +1,42 @@
+package TaxCalculationApp.com.test.template;
+
+import java.util.List;
+
+import TaxCalculationApp.com.test.model.TotalTax;
+
+public class TotalTaxTemplate {
+	static int totalquantity=0;
+	static double totaltax=0;
+	public static void printHeader() {
+		String h1="""
+				%s %s %s
+				%s %s %20s %20s %15s %14s
+				%s %s %s
+				 """;
+		System.out.println(h1.formatted("+", "-".repeat(80), "+", "|", "S NO", "PARTICULAR", "QUANTITY", "TAX", "|", "+", "-".repeat(80), "+"));
+	}
+	
+	public static void printData(List<TotalTax> tlist) {
+		int sno=1;
+		String data="""
+				%s %2d %20s %20d %20.2f %14s
+				""";
+		for(TotalTax t : tlist) {
+			System.out.println(data.formatted("|", sno, t.getParticular(), t.getQuantity(), t.getTotaltax(), "|"));
+			sno++;
+			totalquantity+=t.getQuantity();
+			totaltax+=t.getTotaltax();
+			
+		}
+	}
+	
+	public static void printFooter() {
+		String f1="""
+				%s %s %s
+				%s %s %20s %20d %20.2f %13s
+				%s %s %s
+				 """;
+		System.out.println(f1.formatted("+", "-".repeat(80), "+", "|", "TOTAL", "-".repeat(8), totalquantity, totaltax, "|", "+", "-".repeat(80), "+"));
+		
+	}
+}
