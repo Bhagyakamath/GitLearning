@@ -1,30 +1,31 @@
-package com.test.template;
+package TaxCalculationApp.com.test.template;
 
 import java.util.List;
 
-import com.test.model.Property;
+import TaxCalculationApp.com.test.model.Property;
 
 public class PropertyTemplate {
 	public static void printHeader() {
 		String h1="""
 				%s
-				%10d   %10.2f   %12.2f   %5d   %4s   %12.2f
+				%s   %10s   %12s   %5s   %4s   %12s
 				%s
 				""";
-		System.out.println(h1.formatted("=".repeat(60),"ID", "BUILT-UP AREA", "BASE PRICE", "AGE(YEARS)", "IN CITY", "PROPERTY TAX", "=".repeat(60)));
+		System.out.println(h1.formatted("=".repeat(80),"ID", "BUILT-UP AREA", "BASE PRICE", "AGE(YEARS)", "IN CITY", "PROPERTY TAX", "=".repeat(80)));
+		
 	}
 	public static void printData(List<Property> list) {
 		String data="""
-				%10d   %10.2f   %12.2f   %5d   %4s   %12.2f
+				%d   %10.2f   %13.2f   %7d   %10s   %12.2f
 				""";
 		for(Property p : list) {
-			System.out.println(data.formatted(p.getPropertyid(), p.getBuiltuparea(), p.getBasevalue(), p.getAge(), (p.isIsinmaincity() ? "Y" : "N"), p.getPropertytax()));
+			System.out.println(data.formatted(p.getId(), p.getBuiltuparea(), p.getBasevalue(), p.getAgeofland(), (p.isIsinmaincity() ? "Y" : "N"), p.getPropertytax()));
 		}
 	}
 	public static void printFooter() {
 		String f1="""
 				%s
 				""";
-		System.out.println(f1.formatted("=".repeat(60)));
+		System.out.println(f1.formatted("=".repeat(80)));
 	}
 }
