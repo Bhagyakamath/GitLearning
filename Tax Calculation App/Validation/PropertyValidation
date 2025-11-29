@@ -1,14 +1,14 @@
-package com.test.validation;
+package TaxCalculationApp.com.test.validation;
 
-import com.test.exception.InvalidPropertyException;
-import com.test.model.Property;
+import TaxCalculationApp.com.test.exception.InvalidPropertyException;
+import TaxCalculationApp.com.test.model.Property;
 
 public class PropertyValidation {
 	public static void validate(Property p) {
 
         validateBaseValue(p.getBasevalue());
         validateBuiltUpArea(p.getBuiltuparea());
-        validateAge(p.getAge());
+        validateAge(p.getAgeofland());
         validatePropertyTax(p.getPropertytax());
         
     }
@@ -39,7 +39,19 @@ public class PropertyValidation {
     }
 
    
-    public static boolean validateCityInput(char c) {
-        return c == 'Y' || c == 'y' || c == 'N' || c == 'n';
+    public static boolean validateCityInput(String s) {
+        if(s==null) {
+        	throw new InvalidPropertyException("Cannot be null");
+        }
+        s=s.trim();
+        if(s.equalsIgnoreCase("Y")) {
+        	return true;
+        }
+        else if(s.equalsIgnoreCase("N")) {
+        	return false;
+        }
+        else
+        	throw new InvalidPropertyException("Invalid input. Enter Y or N");
+        
     }
 }
