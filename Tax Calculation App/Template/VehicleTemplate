@@ -1,30 +1,30 @@
-package com.test.template;
+package TaxCalculationApp.com.test.template;
 
 import java.util.List;
 
-import com.test.model.Vehicle;
+import TaxCalculationApp.com.test.model.Vehicle;
 
 public class VehicleTemplate {
 	public static void printHeader() {
 		String h1="""
 				%s
-				%6d   %10s   %6d   %8d   %8s   %12.2f   %10.2f
+				%2s   %7s   %6s   %8s   %8s   %12s   %10s
 				%s
 				""";
-		System.out.println(h1.formatted("=".repeat(60),"REGISTRATION NO", "BRAND", "MAX. VELOCITY", "NO OF SEATS", "VEHICLE TYPE", "PURCHASE COST", "VEHICLE TAX", "=".repeat(60)));
+		System.out.println(h1.formatted("=".repeat(105),"REGISTRATION NO", "BRAND", "MAX. VELOCITY", "NO OF SEATS", "VEHICLE TYPE", "PURCHASE COST", "VEHICLE TAX", "=".repeat(105)));
 	}
 	public static void printData(List<Vehicle> list) {
 		String data="""
-				%6d   %10s   %6d   %8d   %8s   %12.2f   %10.2f
+				%6d   %15s   %12d   %9d   %13s   %13.2f   %13.2f
 				""";
 		for(Vehicle v : list) {
-			System.out.println(data.formatted(v.getRegistrationnumber(), v.getBrand(), v.getMaxvelocity(), v.getCapacity(), v.getVehicletype(), v.getPurchasecost(), v.getVehicletax()));
+			System.out.println(data.formatted(v.getRegistrationno(), v.getBrand(), v.getMaxvelocity(), v.getCapacity(), v.getVehicletype(), v.getPurchasecost(), v.getVehicletax()));
 		}
 	}
 	public static void printFooter() {
 		String f1="""
 				%s
 				""";
-		System.out.println(f1.formatted("=".repeat(60)));
+		System.out.println(f1.formatted("=".repeat(105)));
 	}
 }
