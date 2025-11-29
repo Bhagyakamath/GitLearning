@@ -1,0 +1,35 @@
+package TaxCalculationApp.com.test.serviceimpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import TaxCalculationApp.com.test.datastore.DataStore;
+import TaxCalculationApp.com.test.model.Property;
+import TaxCalculationApp.com.test.model.TotalTax;
+import TaxCalculationApp.com.test.model.Vehicle;
+import TaxCalculationApp.com.test.service.TotalTaxService;
+import TaxCalculationApp.com.test.template.TotalTaxTemplate;
+
+public class TotalTaxServiceImpl implements TotalTaxService{
+
+	@Override
+	public void displayTotalTax() {
+		int pcount=DataStore.properties.size();
+		int vcount=DataStore.vehicles.size();
+		double totalpropertytax=DataStore.properties.stream()
+				.mapToDouble(Property :: getPropertytax)
+				.sum();
+		double totalvehicletax= DataStore.vehicles.stream()
+				.mapToDouble(Vehicle :: getVehicletax)
+				.sum();
+		
+		List<TotalTax> tlist=new ArrayList<>();
+		tlist.add(new TotalTax("PROPERTIES", pcount, totalpropertytax));
+		tlist.add(new TotalTax("VEHICLES", vcount, totalvehicletax));
+		TotalTaxTemplate.printHeader();
+		TotalTaxTemplate.printData(tlist);
+		TotalTaxTemplate.printFooter();
+		
+	}
+
+}
