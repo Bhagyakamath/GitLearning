@@ -1,0 +1,33 @@
+package TaxCalculationApp.com.test.model;
+
+public class TotalTax {
+	private String particular;
+	private int quantity;
+	private double totaltax;
+	
+	public TotalTax(String particular, int quantity, double totaltax) {
+		super();
+		this.particular = particular;
+		this.quantity = quantity;
+		this.totaltax = totaltax;
+	}
+	public String getParticular() {
+		return particular;
+	}
+	public void setParticular(String particular) {
+		this.particular = particular;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public double getTotaltax() {
+		return totaltax;
+	}
+	public void setTotaltax(double totaltax) {
+		this.totaltax = totaltax;
+	}
+	
+}
