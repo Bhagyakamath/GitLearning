@@ -1,19 +1,21 @@
 package TaxCalculationApp.com.test.menu;
 
 import java.util.List;
+import TaxCalculationApp.com.test.service.PropertyService;
 import java.util.Scanner;
 
 import TaxCalculationApp.com.test.model.Property;
 import TaxCalculationApp.com.test.serviceimpl.PropertyServiceImpl;
+import TaxCalculationApp.com.test.validation.PropertyValidation;
 
 public class PropertyMenu {
-	public static void main(String[] args) {
-		final PropertyServiceImpl ps = new PropertyServiceImpl();
+	public static void showMenu() {
+		final PropertyService ps = new PropertyServiceImpl();
 		int ch=0;
 		Scanner sc=new Scanner(System.in);
 		
 		do {
-			System.out.println("Enter 1 to add, 2 to cal, 3 to display and 4 to exit");
+			System.out.println(" 1. ADD PROPERTY DETAILS\n 2. CALCULATE PROPERTY TAX\n 3. DISPLAY ALL PROPERTIES\n 4. BACK TO MAIN MENU");
 			ch=sc.nextInt();
 			switch(ch) {
 			case 1:
@@ -24,24 +26,24 @@ public class PropertyMenu {
 				p.setBuiltuparea(sc.nextDouble());
 				System.out.println("Enter age of land: ");
 				p.setAgeofland(sc.nextInt());
-				System.out.println("Is land in main city: ");
-				p.setIsinmaincity(sc.nextBoolean());
+				System.out.println("Is land in main city(Y/N): ");
+				String s=sc.next();
+				boolean i=PropertyValidation.validateCityInput(s);
+				p.setIsinmaincity(i);
 				ps.addProperty(p);
 				break;
 			case 2: 
 				System.out.println("Enter property id: ");
 				int id=sc.nextInt();
-				System.out.println(ps.calculatePropertyTax(id));
+				System.out.println("Property tax for property id "+id+" is "+ps.calculatePropertyTax(id));
 				break;
 				
 			case 3:
-				List<Property> p1=ps.getAllProperties();
-				p1.stream().forEach(System.out :: println);
+				ps.getAllProperties();
 				break;
 				
 			case 4: 
-				System.exit(0);
-				break;
+				return;
 			default: System.out.println("Enter correct choice");
 			
 			}
