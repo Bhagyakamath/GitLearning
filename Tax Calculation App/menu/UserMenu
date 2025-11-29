@@ -1,0 +1,39 @@
+package TaxCalculationApp.com.test.menu;
+
+import java.util.Scanner;
+import TaxCalculationApp.com.test.service.TotalTaxService;
+
+import TaxCalculationApp.com.test.serviceimpl.TotalTaxServiceImpl;
+
+public class UserMenu {
+	public static void main(String[] args) {
+		TotalTaxService ts=new TotalTaxServiceImpl();
+		int ch=0;
+		Scanner sc=new Scanner(System.in);
+		PropertyMenu pmenu=new PropertyMenu();
+		VehicleMenu vmenu=new VehicleMenu();
+		do {
+			System.out.println(" 1. Property Tax\n 2. Vehicle Tax\n 3. Total Tax\n 4. Exit");
+			ch=sc.nextInt();
+			switch(ch) {
+			case 1:
+				pmenu.showMenu();
+				break;
+			
+			case 2:
+				vmenu.showMenu();
+				break;
+				
+			case 3: 
+				ts.displayTotalTax();
+				break;
+			case 4:
+				System.out.println("Thank you for using service.");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Please enter correct choice");
+			}
+		}while(ch!=0);
+	}
+}
