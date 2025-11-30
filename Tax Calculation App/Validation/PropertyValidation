@@ -1,14 +1,14 @@
-package TaxCalculationApp.com.test.validation;
+package com.test.validation;
 
-import TaxCalculationApp.com.test.exception.InvalidPropertyException;
-import TaxCalculationApp.com.test.model.Property;
+import com.test.exception.InvalidPropertyException;
+import com.test.model.Property;
 
 public class PropertyValidation {
 	public static void validate(Property p) {
 
         validateBaseValue(p.getBasevalue());
         validateBuiltUpArea(p.getBuiltuparea());
-        validateAge(p.getAgeofland());
+        validateAge(p.getAge());
         validatePropertyTax(p.getPropertytax());
         
     }
