@@ -1,60 +1,62 @@
-package TaxCalculationApp.com.test.serviceimpl;
+package com.test.serviceimpl;
 
 import java.util.Comparator;
 import java.util.List;
 
-import TaxCalculationApp.com.test.datastore.DataStore;
-import TaxCalculationApp.com.test.model.Property;
-import TaxCalculationApp.com.test.model.Vehicle;
-import TaxCalculationApp.com.test.model.VehicleType;
-import TaxCalculationApp.com.test.service.VehicleService;
+import com.test.datastore.DataStore;
+import com.test.exception.InvalidVehicleException;
+import com.test.model.Vehicle;
+import com.test.model.VehicleType;
+import com.test.service.VehicleService;
+import com.test.template.VehicleTemplate;
+import com.test.validation.VehicleValidation;
 
 public class VehicleServiceImpl implements VehicleService{
+	 private VehicleValidation vv;
 
-	@Override
-	public void addVehicle(Vehicle v) {
-		VehicleValidation.validate(vehicle);
-		DataStore.vehicles.add(v);
-		
-	}
+	    @Override
+	    public void addVehicle(Vehicle vehicle) {
+	        
+	    	VehicleValidation.validate(vehicle);
+	        DataStore.vehicles.add(vehicle);
+	    }
 
-	@Override
-	public double calculateVehicleTax(int regno) {
-		Vehicle v=getVehicleByRegno(regno);
-		if(v==null) {
-			System.out.println("Vehicle not found with registration number: "+ regno);
-			return -1;
-		}
-		double tax=0;
-		if(v.getVehicletype()==VehicleType.petrol) {
-			tax=v.getMaxvelocity()+v.getCapacity()+(0.1* v.getPurchasecost());
-		}
-		else if(v.getVehicletype()==VehicleType.diesel) {
-			tax=v.getMaxvelocity()+v.getCapacity()+(0.11* v.getPurchasecost());
-		}
-		else {
-			tax=v.getMaxvelocity()+v.getCapacity()+(0.12* v.getPurchasecost());
-		}
-		v.setVehicletax(tax);
-		return tax;
-	}
+	    @Override
+	    public double calculateVehicleTax(String regNo) {
+	        Vehicle vehicle = getVehicleByRegistrationNumber(regNo);
+	        if(vehicle==null) {
+	        	throw new InvalidVehicleException("Vehicle not found with Registration Number: " + regNo);
+	        }
 
-	@Override
-	public void getAllVehicles() {
-		DataStore.vehicles.sort(Comparator.comparingInt(Vehicle::getRegistrationnumber));
+	        double tax = 0;
+	        VehicleType type = vehicle.getVehicletype();
+	        if (type == VehicleType.petrol) {
+	            tax = vehicle.getMaxvelocity() + vehicle.getCapacity() + 0.1 * vehicle.getPurchasecost();
+	        } else if (type == VehicleType.diesel) {
+	            tax = vehicle.getMaxvelocity() + vehicle.getCapacity() + 0.11 * vehicle.getPurchasecost();
+	        } else if (type == VehicleType.cng_lpg) {
+	            tax = vehicle.getMaxvelocity() + vehicle.getCapacity() + 0.12 * vehicle.getPurchasecost();
+	        }
+
+	        vehicle.setVehicletax(tax);
+	        return tax;
+	    }
+
+	    @Override
+	    public void getAllVehicles() {
+	        DataStore.vehicles.sort(Comparator.comparing(Vehicle::getRegistrationnumber));
 	        VehicleTemplate.printHeader();
 	        VehicleTemplate.printData(DataStore.vehicles);
 	        VehicleTemplate.printFooter();
-	}
+	    }
 
-	@Override
-	public Vehicle getVehicleByRegno(int regno) {
-		for(Vehicle v : DataStore.vehicles) {
-			if(v.getRegistrationno()==regno) {
-				return v;
-			}
-		}
-		return null;
-	}
-
+	    @Override
+	    public Vehicle getVehicleByRegistrationNumber(String regNo) {
+	        for (Vehicle v : DataStore.vehicles) {
+	            if (v.getRegistrationnumber() == regNo) {
+	                return v;
+	            }
+	        }
+	        return null;
+	    }
 }
