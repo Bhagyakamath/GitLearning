@@ -1,8 +1,8 @@
-package TaxCalculationApp.com.test.template;
+package com.test.template;
 
 import java.util.List;
 
-import TaxCalculationApp.com.test.model.Vehicle;
+import com.test.model.Vehicle;
 
 public class VehicleTemplate {
 	public static void printHeader() {
@@ -15,10 +15,10 @@ public class VehicleTemplate {
 	}
 	public static void printData(List<Vehicle> list) {
 		String data="""
-				%6d   %15s   %12d   %9d   %13s   %13.2f   %13.2f
+				%6s   %15s   %12d   %9d   %13s   %13.2f   %13.2f
 				""";
 		for(Vehicle v : list) {
-			System.out.println(data.formatted(v.getRegistrationno(), v.getBrand(), v.getMaxvelocity(), v.getCapacity(), v.getVehicletype(), v.getPurchasecost(), v.getVehicletax()));
+			System.out.println(data.formatted(v.getRegistrationnumber(), v.getBrand(), v.getMaxvelocity(), v.getCapacity(), v.getVehicletype(), v.getPurchasecost(), v.getVehicletax()));
 		}
 	}
 	public static void printFooter() {
