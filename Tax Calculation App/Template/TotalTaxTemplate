@@ -1,8 +1,8 @@
-package TaxCalculationApp.com.test.template;
+package com.test.template;
 
 import java.util.List;
 
-import TaxCalculationApp.com.test.model.TotalTax;
+import com.test.model.TotalTax;
 
 public class TotalTaxTemplate {
 	static int totalquantity=0;
@@ -10,7 +10,7 @@ public class TotalTaxTemplate {
 	public static void printHeader() {
 		String h1="""
 				%s %s %s
-				%s %s %20s %20s %15s %14s
+				%s %s %20s %20s %17s %17s
 				%s %s %s
 				 """;
 		System.out.println(h1.formatted("+", "-".repeat(80), "+", "|", "S NO", "PARTICULAR", "QUANTITY", "TAX", "|", "+", "-".repeat(80), "+"));
@@ -19,7 +19,7 @@ public class TotalTaxTemplate {
 	public static void printData(List<TotalTax> tlist) {
 		int sno=1;
 		String data="""
-				%s %2d %20s %20d %20.2f %14s
+				%s %2d %20s %19d %20.2f %17s
 				""";
 		for(TotalTax t : tlist) {
 			System.out.println(data.formatted("|", sno, t.getParticular(), t.getQuantity(), t.getTotaltax(), "|"));
@@ -33,7 +33,7 @@ public class TotalTaxTemplate {
 	public static void printFooter() {
 		String f1="""
 				%s %s %s
-				%s %s %20s %20d %20.2f %13s
+				%s %s %16s %20d %20.2f %17s
 				%s %s %s
 				 """;
 		System.out.println(f1.formatted("+", "-".repeat(80), "+", "|", "TOTAL", "-".repeat(8), totalquantity, totaltax, "|", "+", "-".repeat(80), "+"));
