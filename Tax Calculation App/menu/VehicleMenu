@@ -1,13 +1,13 @@
-package TaxCalculationApp.com.test.menu;
+package com.test.menu;
 
-import java.util.List;
-import TaxCalculationApp.com.test.service.VehicleService;
 import java.util.Scanner;
 
-import TaxCalculationApp.com.test.model.Property;
-import TaxCalculationApp.com.test.model.Vehicle;
-import TaxCalculationApp.com.test.model.VehicleType;
-import TaxCalculationApp.com.test.serviceimpl.VehicleServiceImpl;
+import com.test.inputhandler.PropertyInputHandler;
+import com.test.inputhandler.VehicleInputHandler;
+import com.test.model.Vehicle;
+import com.test.model.VehicleType;
+import com.test.service.*;
+import com.test.serviceimpl.*;
 
 public class VehicleMenu {
 	public static void showMenu() {
@@ -20,41 +20,44 @@ public class VehicleMenu {
 			switch(ch) {
 			case 1:
 				Vehicle v=new Vehicle();
-				System.out.println("Enter registation number: ");
-				v.setRegistrationno(sc.nextInt());
-				System.out.println("Enter brand of vehicle: ");
-				v.setBrand(sc.next());
-				System.out.println("Enter max velocity of vehicle: ");
-				v.setMaxvelocity(sc.nextInt());
-				System.out.println("Enter capacity of vehicle");
-				v.setCapacity(sc.nextInt());
-				System.out.println("Enter type of vehicle 1. petrol, 2. diesel, 3.lpg/cng");
-				int typec=sc.nextInt();
-				VehicleType type=VehicleType.petrol;
-				switch(typec) {
-				case 1: 
-					type=VehicleType.petrol;
-					break;
-				case 2:
-					type=VehicleType.diesel;
-					break;
-				case 3:
-					type=VehicleType.cng_lpg;
-					break;
-				default: 
-					System.out.println("Enter correct choice.");
-					break;
-				
-				}
-				v.setVehicletype(type);
-				System.out.println("Enter purchase cost: ");
-				v.setPurchasecost(sc.nextDouble());
+				v.setRegistrationnumber(
+	                    VehicleInputHandler.getValidatedRegistrationNumber("Enter registration number (4 digits): ")
+	                );
+
+	                v.setBrand(
+	                    VehicleInputHandler.getValidatedBrand("Enter brand: ")
+	                );
+
+	                v.setMaxvelocity(
+	                    VehicleInputHandler.getValidatedVelocity("Enter max velocity (120–300): ")
+	                );
+
+	                v.setCapacity(
+	                    VehicleInputHandler.getValidatedCapacity("Enter seating capacity (2–50): ")
+	                );
+
+	                v.setVehicletype(
+	                    VehicleInputHandler.getValidatedVehicleType("Select vehicle type:")
+	                );
+
+	                v.setPurchasecost(
+	                    VehicleInputHandler.getValidatedPurchaseCost("Enter purchase cost (50,000–10,00,000): ")
+	                );
+
 				vs.addVehicle(v);
 				break;
 			case 2: 
-				System.out.println("Enter registration number to calculate tax: ");
-				int regno=sc.nextInt();
-				System.out.println("Vehicle tax for registration numnber "+regno+" is "+vs.calculateVehicleTax(regno));
+				String reg = VehicleInputHandler.getExistingRegistrationNumber(
+                        "Enter registration number to calculate tax: ", vs
+                );
+				if(reg==null) {
+					 System.out.println("Returning to Vehicle Menu...");
+				        continue; 
+				}
+
+
+                double tax = vs.calculateVehicleTax(reg);
+                System.out.println("Vehicle tax for " + reg + " is: " + tax);
 				break;
 				
 			case 3:
