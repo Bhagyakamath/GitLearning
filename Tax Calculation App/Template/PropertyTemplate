@@ -1,8 +1,8 @@
-package TaxCalculationApp.com.test.template;
+package com.test.template;
 
 import java.util.List;
 
-import TaxCalculationApp.com.test.model.Property;
+import com.test.model.Property;
 
 public class PropertyTemplate {
 	public static void printHeader() {
@@ -19,7 +19,7 @@ public class PropertyTemplate {
 				%d   %10.2f   %13.2f   %7d   %10s   %12.2f
 				""";
 		for(Property p : list) {
-			System.out.println(data.formatted(p.getId(), p.getBuiltuparea(), p.getBasevalue(), p.getAgeofland(), (p.isIsinmaincity() ? "Y" : "N"), p.getPropertytax()));
+			System.out.println(data.formatted(p.getPropertyid(), p.getBuiltuparea(), p.getBasevalue(), p.getAge(), (p.isIsinmaincity() ? "Y" : "N"), p.getPropertytax()));
 		}
 	}
 	public static void printFooter() {
