@@ -1,9 +1,8 @@
-package TaxCalculationApp.com.test.menu;
+package com.test.menu;
 
 import java.util.Scanner;
-import TaxCalculationApp.com.test.service.TotalTaxService;
-
-import TaxCalculationApp.com.test.serviceimpl.TotalTaxServiceImpl;
+import com.test.service.*;
+import com.test.serviceimpl.*;
 
 public class UserMenu {
 	public static void main(String[] args) {
@@ -12,6 +11,34 @@ public class UserMenu {
 		Scanner sc=new Scanner(System.in);
 		PropertyMenu pmenu=new PropertyMenu();
 		VehicleMenu vmenu=new VehicleMenu();
+		
+		final String USERNAME = "admin";
+        final String PASSWORD = "admin123";
+        boolean loggedIn = false;
+        
+        String s="""
+        		%s %s %s
+        		%s %s %s
+        		%s %s %s
+        		""";
+        System.out.println(s.formatted("+", "-".repeat(30), "+", "|", "WELCOME TO TAX CALCULATION APP", "|", "+", "-".repeat(30), "+"));
+        System.out.println("Please login to continue");
+        
+        while (!loggedIn) {
+            System.out.print("USERNAME: ");
+            String inputUser = sc.nextLine().trim();
+
+            System.out.print("PASSWORD: ");
+            String inputPass = sc.nextLine().trim();
+
+            if (inputUser.equals(USERNAME) && inputPass.equals(PASSWORD)) {
+                loggedIn = true;
+                System.out.println("\nLogin successful!\n");
+            } else {
+                System.out.println("Invalid username or password. Please try again.\n");
+            }
+        }
+		
 		do {
 			System.out.println(" 1. Property Tax\n 2. Vehicle Tax\n 3. Total Tax\n 4. Exit");
 			ch=sc.nextInt();
