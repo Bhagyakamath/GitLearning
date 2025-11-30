@@ -1,57 +1,62 @@
-package TaxCalculationApp.com.test.serviceimpl;
+package com.test.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import TaxCalculationApp.com.test.datastore.DataStore;
-import TaxCalculationApp.com.test.model.Property;
-import TaxCalculationApp.com.test.service.PropertyService;
+import com.test.datastore.DataStore;
+import com.test.exception.InvalidPropertyException;
+import com.test.model.Property;
+import com.test.service.PropertyService;
+import com.test.template.PropertyTemplate;
+import com.test.validation.PropertyValidation;
 
 public class PropertyServiceImpl implements PropertyService{
-	int id=1;
+    private int generatedId = 1;
 
-	@Override
-	public void addProperty(Property p) {
-		PropertyValidation.validate(property);
-		p.setId(id++);
-		DataStore.properties.add(p);
-		
-	}
 
-	@Override
-	public double calculatePropertyTax(int propertyid) {
-		Property p=getPropertyById(propertyid);
-		if(p==null) {
-			System.out.println("Property not found with id: "+propertyid);
-			return -1;
-		}
-		double tax=0;
-		if(p.isIsinmaincity()) {
-			tax=(p.getBuiltuparea()*p.getAgeofland()*0.2*p.getBasevalue())+(0.5*p.getBuiltuparea());
-		}
-		else {
-			tax=(p.getBuiltuparea()*p.getAgeofland()*0.2*p.getBasevalue());
-		}
-		p.setPropertytax(tax);
-		return tax;
-	}
+    @Override
+    public void addProperty(Property property) {
+    	PropertyValidation.validate(property);
+        property.setPropertyid(generatedId++);
+        DataStore.properties.add(property);
+    }
 
-	@Override
-	public void getAllProperties() {
-		PropertyTemplate.printHeader();
+    
+    @Override
+    public double calculatePropertyTax(int id) {
+        Property p = getPropertyById(id);
+        if (p == null) {
+        	throw new InvalidPropertyException("Property not found with ID: " + id);
+        }
+
+        double tax = 0;
+        if(p.isIsinmaincity()) {
+        	tax=(p.getBuiltuparea() * p.getAge()* 0.2 * p.getBasevalue()) + (0.5 * p.getBuiltuparea());
+        }
+        else {
+        	tax = p.getBuiltuparea() * p.getAge()* 0.2 * p.getBasevalue();
+        }
+
+        p.setPropertytax(tax);
+        return tax;
+    }
+
+    
+    @Override
+    public void getAllProperties() {
+    	PropertyTemplate.printHeader();
     	 DataStore.properties.sort(Comparator.comparingInt(Property::getPropertyid));
     	 PropertyTemplate.printData(DataStore.properties);
     	 PropertyTemplate.printFooter();
-	}
+    }
 
-	@Override
-	public Property getPropertyById(int id) {
-		for(Property p : DataStore.properties) {
-			if(p.getId()==id) {
-				return p;
-			}
-		}
-		return null;
-	}
-
+    @Override
+    public Property getPropertyById(int id) {
+        for (Property p : DataStore.properties) {
+            if (p.getPropertyid() == id)
+                return p;
+        }
+        return null;
+    }
 }
