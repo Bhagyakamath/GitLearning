@@ -1,12 +1,12 @@
-package TaxCalculationApp.com.test.menu;
+package com.test.menu;
 
-import java.util.List;
-import TaxCalculationApp.com.test.service.PropertyService;
 import java.util.Scanner;
 
-import TaxCalculationApp.com.test.model.Property;
-import TaxCalculationApp.com.test.serviceimpl.PropertyServiceImpl;
-import TaxCalculationApp.com.test.validation.PropertyValidation;
+import com.test.inputhandler.PropertyInputHandler;
+import com.test.model.Property;
+import com.test.service.*;
+import com.test.serviceimpl.*;
+import com.test.validation.PropertyValidation;
 
 public class PropertyMenu {
 	public static void showMenu() {
@@ -20,22 +20,33 @@ public class PropertyMenu {
 			switch(ch) {
 			case 1:
 				Property p=new Property();
-				System.out.println("Enter base value of land: ");
-				p.setBasevalue(sc.nextDouble());
-				System.out.println("Enter built up area of land: ");
-				p.setBuiltuparea(sc.nextDouble());
-				System.out.println("Enter age of land: ");
-				p.setAgeofland(sc.nextInt());
-				System.out.println("Is land in main city(Y/N): ");
-				String s=sc.next();
-				boolean i=PropertyValidation.validateCityInput(s);
-				p.setIsinmaincity(i);
+				p.setBasevalue(
+                        PropertyInputHandler.getValidatedDouble("Enter base value of land: ")
+                );
+
+                p.setBuiltuparea(
+                        PropertyInputHandler.getValidatedBuiltUpArea("Enter built-up area of land: ")
+                );
+
+                p.setAge(
+                        PropertyInputHandler.getValidatedAge("Enter age of land: ")
+                );
+
+                p.setIsinmaincity(
+                        PropertyInputHandler.getValidatedCityInput("Is land in main city (Y/N): ")
+                );
 				ps.addProperty(p);
 				break;
 			case 2: 
-				System.out.println("Enter property id: ");
-				int id=sc.nextInt();
-				System.out.println("Property tax for property id "+id+" is "+ps.calculatePropertyTax(id));
+				int id = PropertyInputHandler.getExistingPropertyId("Enter property id", ps);
+
+			    if (id == -1) {
+			        System.out.println("Returning to Property Menu...");
+			        continue; 
+			    }
+
+			    double tax = ps.calculatePropertyTax(id);
+			    System.out.println("Property tax for ID " + id + " is " + tax);
 				break;
 				
 			case 3:
