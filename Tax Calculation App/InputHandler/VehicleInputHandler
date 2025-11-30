@@ -1,0 +1,178 @@
+package com.test.inputhandler;
+
+import java.util.Scanner;
+
+import com.test.datastore.DataStore;
+import com.test.exception.InvalidVehicleException;
+import com.test.model.Vehicle;
+import com.test.model.VehicleType;
+import com.test.service.VehicleService;
+import com.test.validation.VehicleValidation;
+
+public class VehicleInputHandler {
+	private static final Scanner sc = new Scanner(System.in);
+
+   
+	public static String getValidatedRegistrationNumber(String message) {
+	    while (true) {
+	        try {
+	            System.out.print(message);
+	            String input = sc.nextLine().trim();
+
+	            VehicleValidation.validateRegistrationNumber(input);
+	            return input;
+
+	        } catch (InvalidVehicleException e) {
+	            System.out.println(e.getMessage());
+	        } catch (Exception e) {
+	            System.out.println("Enter a valid 4-digit number.");
+	        }
+	    }
+	}
+    public static String getValidatedBrand(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                String brand = sc.nextLine();
+
+                VehicleValidation.validateBrand(brand);
+                return brand;
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    
+    public static int getValidatedVelocity(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int velocity = sc.nextInt();
+                sc.nextLine();
+
+                VehicleValidation.validateVelocity(velocity);
+                return velocity;
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    
+    public static int getValidatedCapacity(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int cap = sc.nextInt();
+                sc.nextLine();
+
+                VehicleValidation.validateCapacity(cap);
+                return cap;
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+   
+    public static double getValidatedPurchaseCost(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                double cost = sc.nextDouble();
+                sc.nextLine();
+
+                VehicleValidation.validatePurchaseCost(cost);
+                return cost;
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid amount.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    
+    public static VehicleType getValidatedVehicleType(String message) {
+        while (true) {
+            System.out.println(message);
+            System.out.println(" 1. Petrol");
+            System.out.println(" 2. Diesel");
+            System.out.println(" 3. CNG/LPG");
+
+            try {
+                int ch = sc.nextInt();
+                sc.nextLine();
+
+                switch (ch) {
+                    case 1: return VehicleType.petrol;
+                    case 2: return VehicleType.diesel;
+                    case 3: return VehicleType.cng_lpg;
+                    default:
+                        throw new InvalidVehicleException("Enter a valid choice (1–3).");
+                }
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+   
+    public static int getValidatedInt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int val = sc.nextInt();
+                sc.nextLine();
+                return val;
+
+            } catch (Exception e) {
+                System.out.println("Enter a valid numeric choice.");
+                sc.nextLine();
+            }
+        }
+    }
+    
+    public static String getExistingRegistrationNumber(String message, VehicleService vs) {
+        while (true) {
+            try {
+               System.out.println(message+ " (or type menu to go back): ");
+               String reg=sc.next().trim();
+               sc.nextLine();
+                
+                if(reg.equalsIgnoreCase("menu")){
+                	return null;
+                }
+                if (!reg.matches("\\d{4}")) {
+                    throw new Exception("Invalid input! Enter exactly 4 digit number only."); 
+                }
+                vs.calculateVehicleTax(reg);
+
+                return reg;
+
+            } catch (InvalidVehicleException e) {
+                System.out.println(e.getMessage());
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                sc.nextLine();
+            }
+        }
+    }
+
+}
