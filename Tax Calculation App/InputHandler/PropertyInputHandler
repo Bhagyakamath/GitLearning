@@ -1,0 +1,127 @@
+package com.test.inputhandler;
+
+import java.util.Scanner;
+
+import com.test.exception.InvalidPropertyException;
+import com.test.service.PropertyService;
+import com.test.validation.PropertyValidation;
+
+public class PropertyInputHandler {
+	private static final Scanner sc = new Scanner(System.in);
+
+    
+    public static double getValidatedDouble(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                double value = sc.nextDouble();
+                sc.nextLine();
+
+               
+                PropertyValidation.validateBaseValue(value);
+                return value;
+
+            } catch (InvalidPropertyException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+  
+    public static double getValidatedBuiltUpArea(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                double value = sc.nextDouble();
+                sc.nextLine();
+
+                PropertyValidation.validateBuiltUpArea(value);
+                return value;
+
+            } catch (InvalidPropertyException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    
+    public static int getValidatedAge(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int age = sc.nextInt();
+                sc.nextLine();
+
+                PropertyValidation.validateAge(age);
+                return age;
+
+            } catch (InvalidPropertyException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Enter a valid whole number.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    
+    public static boolean getValidatedCityInput(String message) {
+        while (true) {
+            System.out.print(message);
+            String input = sc.nextLine();
+
+            try {
+                return PropertyValidation.validateCityInput(input);
+            } catch (InvalidPropertyException e) {
+                System.out.println( e.getMessage());
+            }
+        }
+    }
+
+    
+    public static int getValidatedInt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int value = sc.nextInt();
+                sc.nextLine();
+                return value;
+
+            } catch (Exception e) {
+                System.out.println("Enter a valid numeric choice.");
+                sc.nextLine();
+            }
+        }
+    }
+    
+    public static int getExistingPropertyId(String message, PropertyService ps) {
+        while (true) {
+            try {
+                System.out.print(message+" (or type menu to go back): ");
+                String input= sc.next();
+                sc.nextLine();
+                if (input.equalsIgnoreCase("menu")) {
+                    return -1;   
+                }
+                int id = Integer.parseInt(input);
+
+                ps.calculatePropertyTax(id);
+
+                return id;
+
+            } catch (InvalidPropertyException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Invalid input. Enter a valid Property ID.");
+                sc.nextLine();
+            }
+        }
+    }
+
+}
