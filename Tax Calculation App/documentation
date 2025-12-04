@@ -15,7 +15,7 @@ If the user selects the property tax, then it shows below options:
 2.	Calculate property tax
 3.	Display all properties
 4.	Back to main menu
-If the user selects Add property details, the application asks for various property-related inputs such as built-up area, age of the land, base value, and whether the property is located in the main city. 
+If the user selects Add property details, the application asks for various property-related inputs such as built-up area, age of the land, base value, and whether the property is located in the main city and validates them. 
 If the user selects 2, then application asks for property id and calculates tax using below formulas:
 a)	If the property is in the main city:
 •	Property tax = (built-up area × age factor × base value) + (½ × built-up area)
@@ -28,7 +28,7 @@ If the user selects vehicle tax, then application shows below options:
 2.	Calculate vehicle tax
 3.	Display all vehicles
 4.	Back to main menu
-If the user selects 1, the user is prompted to enter vehicle-related details such as registration number, brand, cost, capacity, maximum velocity, and fuel type.
+If the user selects 1, the user is prompted to enter vehicle-related details such as registration number, brand, cost, capacity, maximum velocity, and fuel type and the input from the user is validated.
 If the user selects 2, then application asks for vehicle registration number and calculates tax using below formulas:
 a)	Petrol-driven vehicles:
 • Vehicle tax = velocity + capacity + 10% of the purchase cost
@@ -62,8 +62,13 @@ If the user chose to exit the application, the application will end by displayin
 •	Tax is calculated based on the formula.
 5.	Total tax calculation
 •	Total tax is calculated by combining the tax of properties and vehicles.
-
-
+4.	Sprints
+Sprint 1: Project Initialization, Architecture Setup 
+Sprint 1 is planned to focus on thoroughly understanding the requirements of the Tax Calculation Application. During this period, the objective is to understand the requirement and document the flow of application. Additionally, the environment setup will be completed by configuring the project structure with modules like entities, services, validators, exceptions, and data storage. By the end of this sprint, the project should have a clear roadmap, a well-defined design, and a complete skeleton structure ready for coding in the next sprint.
+Sprint 2: Core Feature Development, Application Flow Construction
+Sprint 2 is planned for implementing all the main functionalities of the application based on the design from Sprint 1. The focus will be on developing modules for adding vehicles and properties, calculating tax for each type, implementing business logic, and creating service classes to handle the operations. Custom exceptions will be added to ensure incorrect inputs are handled gracefully. The user input handling flow will also be developed during this sprint, enabling users to interact with the system through menu-driven options. 
+Sprint 3: Menu Refinement, Error Handling, 
+Sprint 3 is planned to refine the overall application flow and make the user experience smooth and reliable. This includes improving the navigation between different menu options, adding support for re-entering incorrect IDs, handling invalid scenarios using custom exceptions, and enhancing error messages. The sprint will conclude with finalizing all features, ensuring that the tax calculation logic works seamlessly end-to-end.
 
 
 
