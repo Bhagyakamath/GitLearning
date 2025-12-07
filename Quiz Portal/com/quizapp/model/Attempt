@@ -1,0 +1,11 @@
+package com.quizapp.model;
+import java.sql.Timestamp;
+public class Attempt {
+    private int id;
+    private int quizId;
+    private int userId;
+    private int score;
+    private int totalQuestions;
+    private Timestamp createdAt;
+    // getters/setters
+}
