@@ -1,0 +1,34 @@
+package com.quizapp.servlet;
+import com.quizapp.dao.AttemptDAO;
+import com.quizapp.dao.UserDAO;
+import com.quizapp.model.Attempt;
+import com.quizapp.model.User;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import javax.servlet.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/quiz/leaderboard")
+public class LeaderboardServlet extends HttpServlet {
+    private AttemptDAO attemptDAO = new AttemptDAO();
+    private UserDAO userDAO = new UserDAO();
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int quizId = Integer.parseInt(req.getParameter("id"));
+        try {
+            List<Attempt> list = attemptDAO.getLeaderboardForQuiz(quizId);
+            // lookup usernames for each attempt (simple approach)
+            List<String> names = new ArrayList<>();
+            for (Attempt a : list) {
+                User u = userDAO.findById(a.getUserId());
+                names.add(u != null ? u.getName() : "Unknown");
+            }
+            req.setAttribute("attempts", list);
+            req.setAttribute("names", names);
+            req.getRequestDispatcher("/user/leaderboard.jsp").forward(req, resp);
+        } catch (Exception e) { throw new ServletException(e); }
+    }
+}
