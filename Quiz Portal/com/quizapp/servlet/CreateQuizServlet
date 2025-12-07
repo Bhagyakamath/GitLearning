@@ -1,0 +1,45 @@
+package com.quizapp.servlet;
+import com.quizapp.dao.QuestionDAO;
+import com.quizapp.dao.QuizDAO;
+import com.quizapp.model.Quiz;
+import com.quizapp.model.User;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import javax.servlet.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/admin/quiz/create")
+public class CreateQuizServlet extends HttpServlet {
+    private QuestionDAO questionDAO = new QuestionDAO();
+    private QuizDAO quizDAO = new QuizDAO();
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("questions", questionDAO.listAll());
+            req.getRequestDispatcher("/admin/create-quiz.jsp").forward(req, resp);
+        } catch (Exception e) { throw new ServletException(e); }
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String title = req.getParameter("title");
+            String category = req.getParameter("category");
+            String[] qids = req.getParameterValues("questionIds");
+            List<Integer> ids = new ArrayList<>();
+            if (qids != null) {
+                for (String id : qids) ids.add(Integer.parseInt(id));
+            }
+            HttpSession s = req.getSession();
+            User admin = (User) s.getAttribute("admin");
+            Quiz q = new Quiz();
+            q.setTitle(title);
+            q.setCategory(category);
+            q.setCreatedBy(admin.getId());
+            quizDAO.createQuiz(q, ids);
+            resp.sendRedirect(req.getContextPath()+"/admin/quiz/list");
+        } catch (Exception e) { throw new ServletException(e); }
+    }
+}
