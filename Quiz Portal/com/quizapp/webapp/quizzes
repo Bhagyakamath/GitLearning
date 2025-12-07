@@ -1,0 +1,20 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html><head><title>Quizzes</title></head>
+<body>
+<div class="container">
+  <h3>Available Quizzes</h3>
+  <table class="table">
+    <thead><tr><th>#</th><th>Title</th><th>Category</th><th>Action</th></tr></thead>
+    <tbody>
+    <c:forEach var="q" items="${quizzes}">
+      <tr>
+        <td>${q.id}</td>
+        <td>${q.title}</td>
+        <td>${q.category}</td>
+        <td><a href="${pageContext.request.contextPath}/quiz/start?id=${q.id}" class="btn btn-danger">Start</a></td>
+      </tr>
+    </c:forEach>
+    </tbody>
+  </table>
+</div>
+</body></html>
