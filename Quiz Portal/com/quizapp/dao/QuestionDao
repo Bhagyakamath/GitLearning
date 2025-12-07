@@ -1,0 +1,67 @@
+package com.quizapp.dao;
+import com.quizapp.model.Question;
+import com.quizapp.util.DBUtil;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuestionDAO {
+    public int addQuestion(Question q) throws SQLException {
+        String sql = "INSERT INTO questions (text,option_a,option_b,option_c,option_d,correct_option) VALUES (?,?,?,?,?,?)";
+        try (Connection c = DBUtil.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, q.getText());
+            ps.setString(2, q.getOptionA());
+            ps.setString(3, q.getOptionB());
+            ps.setString(4, q.getOptionC());
+            ps.setString(5, q.getOptionD());
+            ps.setString(6, q.getCorrectOption());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public List<Question> listAll() throws SQLException {
+        List<Question> list = new ArrayList<>();
+        String sql = "SELECT * FROM questions";
+        try (Connection c = DBUtil.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Question q = new Question();
+                q.setId(rs.getInt("id"));
+                q.setText(rs.getString("text"));
+                q.setOptionA(rs.getString("option_a"));
+                q.setOptionB(rs.getString("option_b"));
+                q.setOptionC(rs.getString("option_c"));
+                q.setOptionD(rs.getString("option_d"));
+                q.setCorrectOption(rs.getString("correct_option"));
+                list.add(q);
+            }
+        }
+        return list;
+    }
+
+    public Question findById(int id) throws SQLException {
+        String sql = "SELECT * FROM questions WHERE id=?";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1,id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Question q = new Question();
+                    q.setId(id);
+                    q.setText(rs.getString("text"));
+                    q.setOptionA(rs.getString("option_a"));
+                    q.setOptionB(rs.getString("option_b"));
+                    q.setOptionC(rs.getString("option_c"));
+                    q.setOptionD(rs.getString("option_d"));
+                    q.setCorrectOption(rs.getString("correct_option"));
+                    return q;
+                }
+            }
+        }
+        return null;
+    }
+}
