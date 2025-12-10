@@ -1,0 +1,61 @@
+<%@ page import="model.User" %>
+
+
+<style>
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background-color: #2d3e50;
+        color: white;
+        position: fixed;
+        left: 0;
+        top: 0;
+        padding-top: 20px;
+        overflow-y: auto;
+    }
+    .sidebar a {
+        color: #b8c7ce;
+        text-decoration: none;
+        display: block;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+    .sidebar a:hover {
+        background-color: #1a252f;
+        color: white;
+    }
+    .sidebar {
+    top: 56px; /* move sidebar below navbar */
+}
+</style>
+
+<div class="sidebar">
+    <h4 class="text-center">QUIZ APP</h4>
+    <hr>
+
+    <a href="AdminDashboardServlet">Dashboard</a>
+
+    <!-- QUIZ MANAGER DROPDOWN -->
+    <div class="dropdown">
+        <a class="dropdown-toggle text-white d-block px-3 py-2"
+           href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Quiz Manager
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="admin-dashboard.jsp?view=createQuiz">Create New Quiz</a></li>
+            <li><a class="dropdown-item" href="AdminDashboardServlet?action=quiz-list">Quiz List</a></li>
+        </ul>
+    </div>
+
+    <!-- QUESTION MANAGER DROPDOWN -->
+    <div class="dropdown">
+        <a class="dropdown-toggle text-white d-block px-3 py-2"
+           href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Question Manager
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="AdminDashboardServlet?action1=create-question">Add New Question</a></li>
+            <li><a class="dropdown-item" href="AdminDashboardServlet?action1=question-list">Question List</a></li>
+        </ul>
+    </div>
+</div>
