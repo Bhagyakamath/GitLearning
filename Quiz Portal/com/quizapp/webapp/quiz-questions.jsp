@@ -7,22 +7,35 @@
     List<Question> list = (List<Question>) request.getAttribute("questions");
 %>
 
+<%@ include file="header.jsp" %>
+<%@ include file="sidebar1.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Quiz Questions</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        .main-content {
+            margin-left: 260px; /* Align with sidebar width */
+            padding: 20px;
+        }
+
+        .card-custom {
+            max-width: 1000px;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
-<div class="container mt-4">
-    <div class="card p-4 shadow">
+
+<div class="main-content">
+    <div class="card p-4 shadow card-custom">
         <h3>Questions for Quiz: <strong><%=quiz.getTitle()%></strong></h3>
         <hr>
-
-       <!--  <a href="AdminDashboardServlet?action1=add-question&quizId=<%=quiz.getId()%>"
-           class="btn btn-success mb-3">Add Question to This Quiz</a>--> 
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -73,5 +86,6 @@
         </a>
     </div>
 </div>
+
 </body>
 </html>
