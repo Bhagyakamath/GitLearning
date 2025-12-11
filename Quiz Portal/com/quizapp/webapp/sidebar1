@@ -1,17 +1,18 @@
 <%@ page import="model.User" %>
 
-
 <style>
+    /* SIDEBAR STYLING */
     .sidebar {
         width: 250px;
-        height: 100vh;
+        height: calc(100vh - 56px);   /* adjust height below navbar */
         background-color: #2d3e50;
         color: white;
         position: fixed;
         left: 0;
-        top: 0;
+        top: 56px; /* move sidebar below navbar */
         padding-top: 20px;
         overflow-y: auto;
+        z-index: 1030;
     }
     .sidebar a {
         color: #b8c7ce;
@@ -24,9 +25,13 @@
         background-color: #1a252f;
         color: white;
     }
-    .sidebar {
-    top: 56px; /* move sidebar below navbar */
-}
+
+    /* GLOBAL CONTENT MARGIN -> PREVENT OVERLAP */
+    .main-content {
+        margin-left: 260px;  /* Sidebar width + small gap */
+        margin-top: 70px;    /* Space for navbar */
+        padding: 20px;
+    }
 </style>
 
 <div class="sidebar">
@@ -35,7 +40,7 @@
 
     <a href="AdminDashboardServlet">Dashboard</a>
 
-    <!-- QUIZ MANAGER DROPDOWN -->
+    <!-- QUIZ MANAGER -->
     <div class="dropdown">
         <a class="dropdown-toggle text-white d-block px-3 py-2"
            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,7 +52,7 @@
         </ul>
     </div>
 
-    <!-- QUESTION MANAGER DROPDOWN -->
+    <!-- QUESTION MANAGER -->
     <div class="dropdown">
         <a class="dropdown-toggle text-white d-block px-3 py-2"
            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
