@@ -1,27 +1,22 @@
 <%@ page import="model.Question" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
+<%@ include file="header.jsp" %>
+<%@ include file="sidebar1.jsp" %>
+
 <%
     Question q = (Question) request.getAttribute("question");
-    if(q == null){
-        out.println("<h3>Invalid Question ID!</h3>");
+    if (q == null) {
+        out.println("<h3 class='text-danger'>Invalid Question ID!</h3>");
         return;
     }
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Question</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-
 <body class="bg-light">
 
-<div class="container mt-5">
-    <div class="card p-4 shadow">
-        <h3>Edit Question</h3>
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4 shadow" style="max-width: 650px; width: 100%;">
+        <h3 class="text-center">Edit Question</h3>
 
         <form action="EditQuestionServlet" method="post">
             <input type="hidden" name="id" value="<%=q.getId()%>">
@@ -57,11 +52,12 @@
                        value="<%=q.getCorrectOption()%>" required>
             </div>
 
-            <input type="submit" class="btn btn-primary" value="Update Question">
-            <a href="AdminDashboardServlet?action1=question-list" class="btn btn-secondary">Cancel</a>
+            <div class="d-flex justify-content-between">
+                <input type="submit" class="btn btn-primary" value="Update Question">
+                <a href="AdminDashboardServlet?action1=question-list" class="btn btn-secondary">Cancel</a>
+            </div>
         </form>
     </div>
 </div>
 
 </body>
-</html>
