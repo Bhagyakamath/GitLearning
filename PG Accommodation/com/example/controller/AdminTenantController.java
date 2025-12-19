@@ -21,11 +21,6 @@ public class AdminTenantController {
     @Autowired
     private TenantService tenantService;
 
-    @PostMapping("/register")
-    public Tenant registerTenant(@RequestBody Tenant tenant) {
-        return tenantService.registerTenant(tenant);
-    }
-
     @GetMapping("/all")
     public List<Tenant> getAllTenants() {
         return tenantService.getAllTenants();
