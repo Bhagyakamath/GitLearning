@@ -14,5 +14,13 @@ public interface OwnerService {
     PgPlace editPlace(PgPlace place);
 
     void deletePlace(Long id);
+    int getVisitorCount(Long pgId);
+    Owner registerOwner(Owner owner);
+    
+    List<Owner> getAllOwners();
+
+    Owner getOwnerById(Long id);
+
+    void deleteOwner(Long id);
 }
 
