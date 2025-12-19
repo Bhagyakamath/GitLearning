@@ -1,47 +1,52 @@
 package com.example.controller;
 
-import com.example.service.*;
-import com.example.entity.*;
-import java.util.List;
+import com.example.entity.Owner;
+import com.example.entity.PgPlace;
+import com.example.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/owner/places")
+@RequestMapping("/owner")
 public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+    
+    @PostMapping("/register")
+    public Owner registerOwner(@RequestBody Owner owner) {
+        return ownerService.registerOwner(owner);
+    }
 
-    @PostMapping("/add")
+    
+    @PostMapping("/addplace")
     public PgPlace addPlace(@RequestBody PgPlace place) {
         return ownerService.addPlace(place);
     }
 
-    @GetMapping("/{ownerId}")
-    public List<PgPlace> getOwnerPlaces(@PathVariable Long ownerId) {
-        return ownerService.getOwnerPlaces(ownerId);
-    }
-
-    @PutMapping("/status/{id}")
-    public PgPlace changeStatus(@PathVariable Long id) {
-        return ownerService.changeStatus(id);
-    }
-
-    @PutMapping("/edit")
+   
+    @PutMapping("/editplace")
     public PgPlace editPlace(@RequestBody PgPlace place) {
         return ownerService.editPlace(place);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deletePlace(@PathVariable Long id) {
-        ownerService.deletePlace(id);
+    
+    @PutMapping("/place/status/{pgId}")
+    public PgPlace changeStatus(@PathVariable Long pgId) {
+        return ownerService.changeStatus(pgId);
+    }
+
+    
+    @GetMapping("/places/{ownerId}")
+    public List<PgPlace> getOwnerPlaces(@PathVariable Long ownerId) {
+        return ownerService.getOwnerPlaces(ownerId);
+    }
+
+   
+    @GetMapping("/place/visitors/{pgId}")
+    public int getVisitorCount(@PathVariable Long pgId) {
+        return ownerService.getVisitorCount(pgId);
     }
 }
