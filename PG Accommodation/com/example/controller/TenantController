@@ -1,0 +1,52 @@
+package com.example.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.entity.Owner;
+import com.example.entity.PgPlace;
+import com.example.entity.Tenant;
+import com.example.service.PgService;
+import com.example.service.TenantService;
+
+@RestController
+@RequestMapping("/tenant")
+public class TenantController {
+	 @Autowired
+	 private TenantService tenantService;
+	 
+	 @Autowired
+	 private PgService pgService;
+	 
+	@PostMapping("/register")
+    public Tenant registerTenant(@RequestBody Tenant tenant) {
+        return tenantService.registerTenant(tenant);
+    }
+	
+	 @GetMapping("/places/city/{cityId}")
+	 public List<PgPlace> getPlacesByCity(@PathVariable Long cityId) {
+	        return pgService.getPgByCity(cityId);
+	 }
+	 
+	 @GetMapping("/places/locality/{locality}")
+	 public List<PgPlace> getPlacesByLocality(@PathVariable String locality) {
+	        return pgService.getPgByLocality(locality);
+	 }
+	 
+	 @GetMapping("/places/details/{pgId}")
+	 public PgPlace getPgDetails(@PathVariable Long pgId) {
+	        return pgService.getPgDetails(pgId);
+	 }
+	 
+	 @GetMapping("/places/owner/{pgId}")
+	 public Owner getOwnerDetails(@PathVariable Long pgId) {
+	        return pgService.getOwnerDetails(pgId);
+	 }
+}
