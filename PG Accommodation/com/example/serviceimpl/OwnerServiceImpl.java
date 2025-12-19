@@ -17,6 +17,16 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepo;
+    
+    @Override
+    public Owner registerOwner(Owner owner) {
+
+        if (owner.getAge() < 18) {
+            throw new InvalidAgeException("Owner must be 18 years or older");
+        }
+
+        return ownerRepo.save(owner);
+    }
 
     @Override
     public PgPlace addPlace(PgPlace place) {
@@ -56,5 +66,29 @@ public class OwnerServiceImpl implements OwnerService {
     public void deletePlace(Long id) {
         pgRepo.deleteById(id);
     }
+    
+    @Override
+    public int getVisitorCount(Long pgId) {
+        PgPlace pg = pgRepo.findById(pgId)
+                .orElseThrow(() -> new ResourceNotFoundException("PG not found"));
+        return pg.getVisitorCount();
+    }
+    
+    @Override
+    public List<Owner> getAllOwners() {
+        return ownerRepo.findAll();
+    }
+
+    @Override
+    public Owner getOwnerById(Long id) {
+        return ownerRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Owner not found"));
+    }
+
+    @Override
+    public void deleteOwner(Long id) {
+        ownerRepo.deleteById(id);
+    }
+
 }
 
