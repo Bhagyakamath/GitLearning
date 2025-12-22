@@ -35,6 +35,8 @@ public class LocalityServiceImpl implements LocalityService {
 
     @Override
     public List<Locality> getLocalitiesByCity(Long cityId) {
+    	cityRepository.findById(cityId)
+        .orElseThrow(() -> new ResourceNotFoundException("City not found"));
         return localityRepository.findAll()
                 .stream()
                 .filter(l -> l.getCity().getCityId().equals(cityId))
@@ -42,8 +44,16 @@ public class LocalityServiceImpl implements LocalityService {
     }
 
     @Override
-    public void deleteLocality(Long id) {
+    public String deleteLocality(Long id) {
+    	localityRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Locality not found"));
         localityRepository.deleteById(id);
+        return "Locality deleted with id:"+id;
     }
+
+	@Override
+	public List<Locality> getAllLocalities() {
+		return localityRepository.findAll();
+	}
 }
 
