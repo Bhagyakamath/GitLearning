@@ -33,8 +33,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void deleteCity(Long id) {
+    public String deleteCity(Long id) {
+    	cityRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("City not found"));
         cityRepository.deleteById(id);
+        return "City deleted with id:"+id;
     }
 }
 
