@@ -3,24 +3,24 @@ package com.example.service;
 import com.example.entity.*;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 public interface OwnerService {
 
     PgPlace addPlace(PgPlace place);
 
     List<PgPlace> getOwnerPlaces(Long ownerId);
 
-    PgPlace changeStatus(Long pgId);
+    PgPlace changeStatus(Long pgId, String status);
 
     PgPlace editPlace(PgPlace place);
 
-    void deletePlace(Long id);
+    String deletePlace(Long id);
     int getVisitorCount(Long pgId);
     Owner registerOwner(Owner owner);
     
-    List<Owner> getAllOwners();
-
-    Owner getOwnerById(Long id);
-
-    void deleteOwner(Long id);
+    public List<Owner> getAllOwners();
+    public Owner getOwnerById( Long id);
+    public String deleteOwner( Long id);
 }
 
