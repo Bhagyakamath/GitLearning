@@ -13,32 +13,68 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.entity.Owner;
 import com.example.service.OwnerService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
 @RestController
 @RequestMapping("/admin/owner")
+@Tag(
+	    name = "Admin - Owner Management",
+	    description = "APIs for Admin to manage PG owners"
+	)
 public class AdminOwnerController {
 
     @Autowired
     private OwnerService ownerService;
 
-    /**
-     * Get all owners
-     */
+    @Operation(
+            summary = "Get all owners",
+            description = "Fetches the list of all PG owners"
+        )
+        @ApiResponse(
+            responseCode = "200",
+            description = "Owners fetched successfully",
+            content = @Content(schema = @Schema(implementation = Owner.class))
+        )
     @GetMapping("/all")
     public List<Owner> getAllOwners() {
         return ownerService.getAllOwners();
     }
 
-    /**
-     * Get owner by ID
-     */
+    @Operation(
+            summary = "Get owner by ID",
+            description = "Fetches a PG owner using owner ID"
+        )
+        @ApiResponse(
+            responseCode = "200",
+            description = "Owner fetched successfully",
+            content = @Content(schema = @Schema(implementation = Owner.class))
+        )
+        @ApiResponse(
+            responseCode = "404",
+            description = "Owner not found"
+        )
     @GetMapping("/{id}")
     public Owner getOwnerById(@PathVariable Long id) {
         return ownerService.getOwnerById(id);
     }
 
-    /**
-     * Delete owner by ID
-     */
+    @Operation(
+            summary = "Delete owner",
+            description = "Deletes a PG owner using owner ID"
+        )
+        @ApiResponse(
+            responseCode = "200",
+            description = "Owner deleted successfully"
+        )
+        @ApiResponse(
+            responseCode = "404",
+            description = "Owner not found"
+        )
     @DeleteMapping("/delete/{id}")
     public void deleteOwner(@PathVariable Long id) {
         ownerService.deleteOwner(id);
