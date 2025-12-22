@@ -1,0 +1,82 @@
+To add city:
+{
+    "cityName":"Bangalore"
+}
+
+
+To add locality:
+{
+    "localityName": "Gachibowli",
+  "city": {
+    "cityId": 1
+  }
+}
+
+
+Owner register:
+{
+  "name": "Ramesh Kumar",
+  "email": "ramesh@gmail.com",
+  "mobile": "9876543210",
+  "age": 30
+}
+
+
+
+Owner add place:
+{
+  "registrationNumber": "PG-REG-102",
+  "builtUpArea": 1200,
+  "rent": 8500,
+  "city": {
+    "cityId": 1
+  },
+  "locality": {
+    "localityId": 1
+  },
+  "owner": {
+    "ownerId": 1
+  }
+}
+
+
+
+Owner edit place:
+{
+    "pgId":1,
+  "registrationNumber": "PG-REG-102",
+  "builtUpArea": 1200,
+  "rent": 8500,
+  "city": {
+    "cityId": 1
+  },
+  "locality": {
+    "localityId": 1
+  },
+  "owner": {
+    "ownerId": 10
+  }
+}
+
+
+Change status:
+{
+    "status":"available"
+}
+
+
+Tenant register:
+{
+  "name": "Rahul Sharma",
+  "email": "rahul@gmail.com",
+  "mobile": "9876543210",
+  "age": 22,
+  "city": {
+    "cityId": 1
+  },
+  "locality": {
+    "localityId": 1
+  }
+}
+
+
