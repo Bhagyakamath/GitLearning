@@ -16,8 +16,19 @@ import com.example.entity.Tenant;
 import com.example.service.PgService;
 import com.example.service.TenantService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
 @RestController
 @RequestMapping("/tenant")
+@Tag(
+	    name = "Tenant APIs",
+	    description = "APIs for tenants to register and search PG places"
+	)
 public class TenantController {
 	 @Autowired
 	 private TenantService tenantService;
@@ -25,26 +36,90 @@ public class TenantController {
 	 @Autowired
 	 private PgService pgService;
 	 
+	 @Operation(
+		        summary = "Register tenant",
+		        description = "Registers a new tenant"
+		    )
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "Tenant registered successfully",
+		        content = @Content(schema = @Schema(implementation = Tenant.class))
+		    )
 	@PostMapping("/register")
     public Tenant registerTenant(@RequestBody Tenant tenant) {
         return tenantService.registerTenant(tenant);
     }
 	
+	 @Operation(
+		        summary = "Get PGs by city",
+		        description = "Fetches AVAILABLE PG places by city ID"
+		    )
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "PG places fetched successfully",
+		        content = @Content(schema = @Schema(implementation = PgPlace.class))
+		    )
+		    @ApiResponse(
+		        responseCode = "404",
+		        description = "City not found"
+		    )
 	 @GetMapping("/places/city/{cityId}")
 	 public List<PgPlace> getPlacesByCity(@PathVariable Long cityId) {
 	        return pgService.getPgByCity(cityId);
 	 }
 	 
+	 @Operation(
+		        summary = "Get PGs by locality",
+		        description = "Fetches PG places by locality name (case-insensitive)"
+		    )
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "PG places fetched successfully"
+		    )
+		    @ApiResponse(
+		        responseCode = "404",
+		        description = "Locality not found"
+		    )
 	 @GetMapping("/places/locality/{locality}")
 	 public List<PgPlace> getPlacesByLocality(@PathVariable String locality) {
 	        return pgService.getPgByLocality(locality);
 	 }
 	 
+	 @Operation(
+		        summary = "Get PG details",
+		        description = "Fetches PG details and increments visitor count"
+		    )
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "PG details fetched successfully",
+		        content = @Content(schema = @Schema(implementation = PgPlace.class))
+		    )
+		    @ApiResponse(
+		        responseCode = "404",
+		        description = "PG place not found"
+		    )
 	 @GetMapping("/places/details/{pgId}")
 	 public PgPlace getPgDetails(@PathVariable Long pgId) {
 	        return pgService.getPgDetails(pgId);
 	 }
 	 
+	 @Operation(
+		        summary = "Get PG owner details",
+		        description = "Returns owner contact details ONLY if PG is AVAILABLE"
+		    )
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "Owner details fetched successfully",
+		        content = @Content(schema = @Schema(implementation = Owner.class))
+		    )
+		    @ApiResponse(
+		        responseCode = "403",
+		        description = "PG is OCCUPIED. Owner details are restricted"
+		    )
+		    @ApiResponse(
+		        responseCode = "404",
+		        description = "PG place not found"
+		    )
 	 @GetMapping("/places/owner/{pgId}")
 	 public Owner getOwnerDetails(@PathVariable Long pgId) {
 	        return pgService.getOwnerDetails(pgId);
