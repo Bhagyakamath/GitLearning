@@ -12,4 +12,5 @@ public interface PgService {
     PgPlace getPgDetails(Long id);
 
     Owner getOwnerDetails(Long pgId);
+    
 }
