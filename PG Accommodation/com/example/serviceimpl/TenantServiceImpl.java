@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.entity.City;
 import com.example.entity.Locality;
+import com.example.entity.PgPlace;
 import com.example.entity.Tenant;
 import com.example.exception.InvalidAgeException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.repository.CityRepository;
 import com.example.repository.LocalityRepository;
+import com.example.repository.PgPlaceRepository;
 import com.example.repository.TenantRepository;
 import com.example.service.TenantService;
 
@@ -28,6 +30,9 @@ public class TenantServiceImpl implements TenantService
 
     @Autowired
     private LocalityRepository localityRepository;
+    
+    @Autowired
+    private PgPlaceRepository pgRepo;
 
     @Override
     public Tenant registerTenant(Tenant tenant) {
@@ -66,4 +71,12 @@ public class TenantServiceImpl implements TenantService
     public void deleteTenant(Long id) {
         tenantRepository.deleteById(id);
     }
+
+	@Override
+	public List<PgPlace> getPlacesByCity(Long id) throws Exception{
+		City city = cityRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("City not found with id: " + id));
+		return pgRepo.findByCityCityIdAndAvailabilityStatus(city.getCityId(), "AVAILABLE");
+	}
 }
