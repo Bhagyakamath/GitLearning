@@ -13,6 +13,6 @@ public interface CityService {
 
     City getCityById(Long id);
 
-    void deleteCity(Long id);
+    String deleteCity(Long id);
 }
 
