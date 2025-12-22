@@ -12,5 +12,8 @@ public interface PgPlaceRepository extends JpaRepository<PgPlace, Long> {
     List<PgPlace> findByCityCityIdAndAvailabilityStatus(Long cityId, String status);
 
     List<PgPlace> findByLocalityLocalityNameIgnoreCase(String locality);
+	List<PgPlace> findByLocality(Locality locality);
+	List<PgPlace> findByCity(City city);
+    
 }
 
