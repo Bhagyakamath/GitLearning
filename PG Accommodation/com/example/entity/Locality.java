@@ -2,6 +2,7 @@ package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class Locality {
     @ManyToOne
 //    @JoinColumn(name = "city_id")
     @JsonBackReference
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private City city;
 
 	public Long getLocalityId() {
