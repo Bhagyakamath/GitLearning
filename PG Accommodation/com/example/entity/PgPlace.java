@@ -1,6 +1,8 @@
 package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +33,8 @@ public class PgPlace {
 
     @ManyToOne
 //    @JoinColumn(name = "owner_id")
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnoreProperties("pgPlaces") 
     private Owner owner;
 
 	public Long getPgId() {
