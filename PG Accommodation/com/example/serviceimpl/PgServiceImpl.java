@@ -14,15 +14,34 @@ public class PgServiceImpl implements PgService {
 
     @Autowired
     private PgPlaceRepository pgRepo;
+    
+    @Autowired
+    private CityRepository cityRepository;
+    
+    @Autowired
+    private LocalityRepository locRepo;
 
     @Override
     public List<PgPlace> getPgByCity(Long cityId) {
+    	City city = cityRepository.findById(cityId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("City not found with id: " + cityId));
+    	List<PgPlace> pgList = pgRepo.findByCity(city);
+
+    	pgList.forEach(pg -> {
+    	    if (!"AVAILABLE".equalsIgnoreCase(pg.getAvailabilityStatus())) {
+    	        pg.setOwner(null); 
+    	    }
+    	});
         return pgRepo.findByCityCityIdAndAvailabilityStatus(cityId, "AVAILABLE");
     }
 
     @Override
     public List<PgPlace> getPgByLocality(String locality) {
-        return pgRepo.findByLocalityLocalityNameIgnoreCase(locality);
+    	Locality loc = locRepo.findByLocalityName(locality)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Locality not found with id: " + locality));
+        return pgRepo.findByLocality(loc);
     }
 
     @Override
@@ -41,5 +60,7 @@ public class PgServiceImpl implements PgService {
         }
         return pg.getOwner();
     }
+    
+    
 }
 
